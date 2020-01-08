@@ -1,4 +1,4 @@
-import { mapTo, resolveSequentially, wait } from '../../src/utils';
+import { mapTo, resolveSequentially, wait } from '../../src/util';
 
 describe('mapTo', () => {
   it('should modify the object according to the map provided', () => {

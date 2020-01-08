@@ -1,5 +1,5 @@
 import * as _ from 'lodash/fp';
-import { resolveSequentially } from '../utils';
+import { resolveSequentially } from '../util';
 
 const injectServices = async module => {
   const { services } = module;

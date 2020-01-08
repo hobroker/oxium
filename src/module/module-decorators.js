@@ -1,4 +1,4 @@
-import { assignOnce } from '../utils';
+import { assignOnce } from '../util';
 
 const markAs = assignOnce('mark');
 

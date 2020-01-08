@@ -1,6 +1,6 @@
 import * as _ from 'lodash/fp';
 import { servicesVisitor } from '../service';
-import { resolveSequentially } from '../utils';
+import { resolveSequentially } from '../util';
 import { configVisitor, dependenciesVisitor } from './module-visitors';
 
 const defaultVisitors = [

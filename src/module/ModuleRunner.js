@@ -1,7 +1,7 @@
 import * as _ from 'lodash/fp';
 import { applyVisitors } from './visitors';
 import { injectEvents } from '../events';
-import { call, resolveSequentially } from '../utils';
+import { call, resolveSequentially } from '../util';
 import { WEB } from '../constants';
 import { injectServices } from '../service';
 

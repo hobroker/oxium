@@ -1,5 +1,5 @@
-export { default as AbstractModuleConnector } from './AbstractModuleConnector';
-export { default as ModuleRunner } from './ModuleRunner';
+export AbstractModuleConnector from './AbstractModuleConnector';
+export ModuleRunner from './ModuleRunner';
 
 export * from './module-decorators';
 export * from './module-visitors';
