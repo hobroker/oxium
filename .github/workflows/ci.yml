@@ -31,10 +31,10 @@ jobs:
           codecov -t ${{ secrets.CODECOV_TOKEN }}
       - name: Run Build
         run: npm run build
-      - uses: actions/setup-node@v1
+      - name: Publish package
+        uses: actions/setup-node@v1
         with:
           registry-url: https://npm.pkg.github.com/
-      - name: Publish package
         run: |
           bash scripts/release.sh
           npm publish
