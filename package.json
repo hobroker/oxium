@@ -1,14 +1,23 @@
 {
   "name": "onis",
   "version": "0.1.0",
-  "description": "Onis",
+  "description": "Modularized framework",
   "author": "Igor Leahu <igor.leahu@gmail.com>",
   "repository": "github:hobroker/onis",
   "license": "MIT",
   "type": "module",
-  "main": "src",
+  "main": "src/index.js",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
-    "build": "babel src -d build",
+    "build": "babel src -d dist",
     "build:watch": "npm run build --watch",
     "test": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage",

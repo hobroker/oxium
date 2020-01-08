@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-node@v1.2.0
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
       - name: Install packages
         run: |
           npm ci
@@ -32,6 +33,9 @@ jobs:
           codecov -t ${{ secrets.CODECOV_TOKEN }}
       - name: Run Build
         run: npm run build
+      - name: Publish package
+        run: |
+          npm publish
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:

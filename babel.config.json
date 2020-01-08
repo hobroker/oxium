@@ -1,4 +1,5 @@
 {
+  "moduleId": "onis",
   "ignore": ["/node_modules/"],
   "presets": [
     [

@@ -47,5 +47,14 @@ const assignOnce = _.curry((key, value, target) => {
 
 const call = fn => fn();
 
-export { assignOnce, call, mapTo, resolveSequentially, wait };
+const getFromProto = key =>
+  function getFromProto() {
+    if (!key) {
+      return this;
+    }
+
+    return _.get(this, key);
+  };
+
+export { assignOnce, call, getFromProto, mapTo, resolveSequentially, wait };
 export * from './decorators';
