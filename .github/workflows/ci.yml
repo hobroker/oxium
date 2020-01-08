@@ -16,8 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1.1.0
-        with:
-          fetch-depth: 1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1.2.0
         with:
@@ -25,7 +23,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - name: Install packages
         run: |
-          npm ci
+          NODE_ENV= npm ci
           npm install -g codecov
       - name: Run Tests and publish code coverage
         run: |
@@ -33,15 +31,17 @@ jobs:
           codecov -t ${{ secrets.CODECOV_TOKEN }}
       - name: Run Build
         run: npm run build
+      - uses: actions/setup-node@v1
+        with:
+          registry-url: https://npm.pkg.github.com/
       - name: Publish package
         run: |
+          bash scripts/release.sh
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:
           name: build
           path: build
-        env:
-          CI: true
-          NODE_ENV: test
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
