@@ -32,9 +32,6 @@ jobs:
       - name: Run Build
         run: npm run build
       - name: Publish package
-        uses: actions/setup-node@v1
-        with:
-          registry-url: https://npm.pkg.github.com/
         run: |
           bash scripts/release.sh
           npm publish
