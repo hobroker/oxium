@@ -1,14 +1,10 @@
 import { pipe } from 'ramda';
+import { filterFunctions, callAll} from './lib/util';
+import { configEvaluator, evaluateAndAssocProps, requireEvaluator } from './lib/util/evaluators';
+import { loadFeatures } from './lib/util/app';
+import config from './config';
 import Mongo from './features/mongo';
 import Demo from './features/demo';
-import {
-  registerFeatures,
-  filterFunctions,
-  callAll,
-  evaluateAndAssocProps,
-} from './lib/util';
-import config from './config';
-import { configEvaluator, requireEvaluator } from './lib/util/evaluators';
 
 const evaluators = {
   config: configEvaluator,
@@ -21,7 +17,7 @@ const app = { features, config, evaluators };
 
 const run = pipe(
   evaluateAndAssocProps(app),
-  registerFeatures,
+  loadFeatures,
   callAll,
   filterFunctions,
   callAll,
