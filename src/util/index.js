@@ -33,7 +33,7 @@ const mapTo = _.curry((map, object) => {
   }, defaultValue);
 });
 
-const wait = ms => new Promise(r => setTimeout(r, ms));
+const wait = ms => new Promise(r => setTimeout(() => r(ms), ms));
 
 const assignOnce = _.curry((key, value, target) => {
   Object.defineProperty(target, key, {
@@ -47,14 +47,5 @@ const assignOnce = _.curry((key, value, target) => {
 
 const call = fn => fn();
 
-const getFromProto = key =>
-  function getFromProto() {
-    if (!key) {
-      return this;
-    }
-
-    return _.get(this, key);
-  };
-
-export { assignOnce, call, getFromProto, mapTo, resolveSequentially, wait };
+export { assignOnce, call, mapTo, resolveSequentially, wait };
 export * from './decorators';
