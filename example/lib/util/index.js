@@ -1,11 +1,10 @@
-import { call, filter, map } from 'ramda';
+import { always, call, curry, filter, map } from 'ramda';
 import { isFunction } from 'ramda-adjunct';
-import * as _ from 'lodash/fp';
 
 // helpers
-export const lazy = fn => (...args) => () => fn(...args);
+export const lazy = fn => (...args) => always(fn(...args));
 
-export const assignOnce = _.curry((key, value, target) => {
+export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {
     writable: false,
     configurable: false,
@@ -19,3 +18,8 @@ export const callAll = map(call);
 
 export const filterFunctions = filter(isFunction);
 
+export const logAndContinue = value => {
+  console.log('log value:', value);
+
+  return value;
+};

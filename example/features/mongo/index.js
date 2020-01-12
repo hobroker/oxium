@@ -1,7 +1,8 @@
 import { assoc, compose } from 'ramda';
 import { Subject } from 'rxjs';
 import { string } from 'yup';
-import { withConfig } from '../../lib/util/features';
+import { withConfig } from '../../lib/feature/withConfig';
+import { setId } from '../../lib/selectors/feature';
 
 const mongoSubject = new Subject();
 
@@ -19,7 +20,7 @@ const handler = props => {
 };
 
 const Mongo = compose(
-  assoc('id', MONGO),
+  setId(MONGO),
   withConfig({
     connectionString: string().required(),
   }),

@@ -41,6 +41,6 @@ describe('resolveSequentially', () => {
 
 describe('wait', () => {
   it('should wait 100ms', async () => {
-    await expect(wait(100)).resolves.toBeUndefined();
+    await expect(wait(100)).resolves.toBe(100);
   });
 });

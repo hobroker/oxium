@@ -1,10 +1,14 @@
-import { assoc, compose } from 'ramda';
+import { compose } from 'ramda';
+import { noop } from 'rxjs';
 import { MONGO } from '../mongo';
-import { withRequireFeature } from '../../lib/util/features';
+import { withRequireFeature } from '../../lib/feature/withRequireFeature';
+import { setId } from '../../lib/selectors/feature';
 
 const DEMO = 'demo';
 
-const Demo = compose(assoc('id', DEMO), withRequireFeature(MONGO))({});
+const handler = noop;
+
+const Demo = compose(setId(DEMO), withRequireFeature(MONGO))({ handler });
 
 export { DEMO };
 

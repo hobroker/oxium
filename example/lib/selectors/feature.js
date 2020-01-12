@@ -1,8 +1,13 @@
-import { prop, propOr } from 'ramda';
+import { lensProp, set, view } from 'ramda';
 
-export const getFeatureId = prop('id');
+export const idLens = lensProp('id');
+export const handlerLens = lensProp('handler');
+export const propsLens = lensProp('props');
 
-// app
-export const getHandler = prop('handler');
+export const getId = view(idLens);
+export const setId = set(idLens);
 
-export const getProps = propOr({}, 'props');
+export const getHandler = view(handlerLens);
+
+export const getProps = view(propsLens);
+export const setProps = set(propsLens);
