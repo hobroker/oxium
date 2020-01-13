@@ -1,8 +1,5 @@
-import { always, call, curry, filter, map } from 'ramda';
+import { call, converge, curry, filter, identity, map } from 'ramda';
 import { isFunction } from 'ramda-adjunct';
-
-// helpers
-export const lazy = fn => (...args) => always(fn(...args));
 
 export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {
@@ -18,8 +15,7 @@ export const callAll = map(call);
 
 export const filterFunctions = filter(isFunction);
 
-export const logAndContinue = value => {
-  console.log('log value:', value);
+export const safe = fn => converge(identity, [identity, fn]);
 
-  return value;
-};
+export const logAndContinue = key =>
+  safe(value => console.log(`log "${key}"=`, value));

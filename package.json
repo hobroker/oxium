@@ -19,7 +19,7 @@
     "example": "node -r @babel/register example/index.js",
     "test": "NODE_ENV=test jest",
     "test:coverage": "npm t -- --coverage",
-    "lint": "eslint src tests --ext .js --max-warnings 0"
+    "lint": "eslint src tests example --ext .js --max-warnings 0"
   },
   "dependencies": {
     "debug": "^4.1.1",

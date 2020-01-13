@@ -1,8 +1,6 @@
-import { __, append, assocPath, compose, converge, nthArg, path } from 'ramda';
+import { assocPath, compose, identity, path, useWith } from 'ramda';
+import { appendFlipped } from 'ramda-adjunct';
 
-export const assocWith = compose(assocPath, append(__, ['with']));
+export const assocWith = compose(assocPath, appendFlipped(['with']));
 
-export const getWith = converge(path, [
-  append(__, ['with'], nthArg(0)),
-  nthArg(1),
-]);
+export const getWith = useWith(path, [appendFlipped(['with']), identity]);

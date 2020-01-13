@@ -1,17 +1,30 @@
-import { assoc, compose } from 'ramda';
-import { Subject } from 'rxjs';
+import mongoose from 'mongoose';
+import { compose } from 'ramda';
 import { string } from 'yup';
 import { withConfig } from '../../lib/feature/withConfig';
 import { setId } from '../../lib/selectors/feature';
-
-const mongoSubject = new Subject();
+import { getConfig } from '../../lib/selectors/params';
+import mongoSubject from './mongoSubject';
 
 const MONGO = 'mongo';
 
-const handler = props => {
-  console.log('Mongo props', props);
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
-  mongoSubject.next();
+const handler = async (props, rest) => {
+  const config = getConfig(props);
+  console.log('...rest', rest);
+  const { connectionString } = config;
+
+  console.log('connecting to %s', connectionString);
+
+  const mongo = await mongoose.connect(connectionString, options);
+
+  console.log('connected');
+
+  mongoSubject.next(mongo);
 
   return () => {
     console.log('Mongo onUnload ...args2');

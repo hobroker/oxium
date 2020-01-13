@@ -1,11 +1,28 @@
-import { compose, converge, filter, lensProp, map, prop, view } from 'ramda';
+import {
+  always,
+  compose,
+  converge,
+  filter,
+  lensProp,
+  map,
+  nthArg,
+  prop,
+  set,
+  view,
+} from 'ramda';
 import { isString } from 'ramda-adjunct';
 import { getId, idLens } from './feature';
+import { byIdLens } from './index';
 
 export const appLens = lensProp('app');
 export const configLens = lensProp('config');
 export const featureLens = lensProp('feature');
 export const featuresLens = lensProp('features');
+
+export const getConfig = view(configLens);
+
+export const getFeatures = view(featuresLens);
+export const setFeatures = set(featuresLens);
 
 export const appConfigFeaturesLens = compose(appLens, configLens, featuresLens);
 export const getAppConfigFeatures = view(appConfigFeaturesLens);
@@ -26,3 +43,12 @@ export const getAllFeatureIds = compose(
   map(getId),
   getAppFeatures,
 );
+
+export const appFeatureByIdLens = converge(compose, [
+  always(appLens),
+  always(featuresLens),
+  compose(byIdLens, nthArg(0)),
+]);
+
+export const getAppFeatureById = params =>
+  view(appFeatureByIdLens('mongo'), params);
