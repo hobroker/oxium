@@ -6,6 +6,7 @@ import {
   converge,
   curry,
   filter,
+  forEach,
   identity,
   juxt,
   map,
@@ -20,7 +21,7 @@ import {
 } from 'ramda-adjunct';
 import { getHandler, getProps, setProps } from '../selectors/feature';
 import { getWith } from '../feature';
-import { getFeatures, setFeatures } from '../selectors/params';
+import { getFeatures } from '../selectors/params';
 
 export const filterFeaturesByHandler = filter(compose(isFunction, getHandler));
 
@@ -44,7 +45,7 @@ const evaluateEvaluator = curry((params, evaluator, data) => {
 });
 
 export const evaluateWith = curry((app, feature) => {
-  const result = {};
+  feature.props = {};
   const params = { app, feature };
   const evaluate = evaluateEvaluator(params);
   const evaluators = toPairs(app.evaluators);
@@ -52,19 +53,18 @@ export const evaluateWith = curry((app, feature) => {
   for (const [key, evaluator] of evaluators) {
     const data = getWith(key, feature);
     const evalResult = evaluate(evaluator, data);
+
     if (shouldAddToProps(evalResult)) {
-      result[key] = evalResult;
+      feature.props[key] = evalResult;
     }
   }
-
-  return result;
 });
 
 export const evaluateAndAssocProps = app => {
   const evaluate = evaluateWith(app);
   const evaluateAndSet = converge(setProps, [evaluate, identity]);
-  const evaluateFeatures = compose(map(evaluateAndSet), getFeatures);
-  const features = evaluateFeatures(app);
+  const evaluateFeatures = compose(forEach(evaluateAndSet), getFeatures);
+  evaluateFeatures(app);
 
-  return setFeatures(features, app);
+  return app;
 };

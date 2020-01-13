@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
-import { compose } from 'ramda';
+import { compose, forEach, converge, curry, map } from 'ramda';
 import { string } from 'yup';
 import { withConfig } from '../../lib/feature/withConfig';
 import { setId } from '../../lib/selectors/feature';
 import { getConfig } from '../../lib/selectors/params';
 import mongoSubject from './mongoSubject';
+import { withModels } from './withModels';
+import { getModels } from './mongo-selectors';
+import { getModelMeta } from './util';
 
 const MONGO = 'mongo';
 
@@ -13,30 +16,43 @@ const options = {
   useUnifiedTopology: true,
 };
 
-const handler = async (props, rest) => {
-  const config = getConfig(props);
-  console.log('...rest', rest);
-  const { connectionString } = config;
+const prepareModels = map(getModelMeta);
 
-  console.log('connecting to %s', connectionString);
+const loadModels = curry((mongo, models) =>
+  forEach(({ Model, schema, name }) => {
+    mongo.model(Model, schema, name);
+  }, models),
+);
 
-  const mongo = await mongoose.connect(connectionString, options);
+const handler = converge(
+  async (config, models) => {
+    console.log('models', models);
+    const { connectionString } = config;
 
-  console.log('connected');
+    console.log('connecting to %s', connectionString);
 
-  mongoSubject.next(mongo);
+    const mongo = await mongoose.connect(connectionString, options);
 
-  return () => {
-    console.log('Mongo onUnload ...args2');
-    mongoSubject.complete();
-  };
-};
+    console.log('connected');
+
+    compose(loadModels(mongo), prepareModels)(models);
+
+    mongoSubject.next(mongo);
+
+    return () => {
+      console.log('Mongo onUnload ...args2');
+      mongoSubject.complete();
+    };
+  },
+  [getConfig, getModels],
+);
 
 const Mongo = compose(
   setId(MONGO),
   withConfig({
     connectionString: string().required(),
   }),
+  withModels([]),
 )({ handler });
 
 export { mongoSubject };

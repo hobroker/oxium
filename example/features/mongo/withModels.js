@@ -1,31 +1,22 @@
-import { Schema } from 'mongoose';
-import { curry, forEach } from 'ramda';
+import { compose, concat, curry, values } from 'ramda';
 import { assocWith } from '../../lib/feature';
 import { getAppFeatureById } from '../../lib/selectors/params';
+import { getPropsModels } from './mongo-selectors';
 
 const withModels = assocWith('models');
 
-const schemaOptions = { timestamps: true };
-
-const loadModel = Model => {
-  const { name } = Model;
-  const schema = new Schema(Model.SCHEMA, schemaOptions);
-
-  const meta = { Model, schema, name };
-
-  return meta;
-};
-
-const loadModels = forEach(loadModel);
-
 const withModelsEvaluator = curry((models, params) => {
   const mongoFeature = getAppFeatureById(params);
+  if (!mongoFeature.props.models) {
+    mongoFeature.props.models = [];
+  }
 
-  // mongoFeature.handler = null;
+  mongoFeature.props.models = compose(
+    concat(values(models)),
+    getPropsModels,
+  )(mongoFeature);
 
-  // models = values(models);
-  // loadModels(models);
-  // console.log('params.app.features', params.app.features);
+  return null;
 });
 
 export { withModels, withModelsEvaluator };

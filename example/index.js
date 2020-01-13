@@ -1,5 +1,5 @@
 import { pipe } from 'ramda';
-import { callAll, filterFunctions, safe } from './lib/util';
+import { callAll, filterFunctions, logAndContinue, safe } from './lib/util';
 import { evaluateAndAssocProps, loadFeatures } from './lib/util/app';
 import { withConfigEvaluator } from './lib/feature/withConfig';
 import { withRequireFeatureEvaluator } from './lib/feature/withRequireFeature';
