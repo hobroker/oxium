@@ -12,12 +12,12 @@ import {
 } from 'ramda';
 import { isString } from 'ramda-adjunct';
 import { getId, idLens } from './feature';
+import { featuresLens } from './app';
 import { byIdLens } from './index';
 
 export const appLens = lensProp('app');
 export const configLens = lensProp('config');
 export const featureLens = lensProp('feature');
-export const featuresLens = lensProp('features');
 
 export const getConfig = view(configLens);
 

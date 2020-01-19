@@ -22,3 +22,17 @@ const createLensFindByProp = curry((propName, propValue) =>
 export const byIdLens = createLensFindByProp('id');
 
 export const getById = useWith(view, [byIdLens, identity]);
+
+// const items = {
+//   features: [
+//     { id: 'mongo', handler: 1 },
+//     { id: 'demo', handler: 2 },
+//   ],
+// };
+//
+// const updateHandler = over(
+//   featuresLens,
+//   map(over(byIdLens('mongo'), setHandler('33'))),
+// );
+
+// console.log(JSON.stringify(converge(assocPath,[]), null, 2));

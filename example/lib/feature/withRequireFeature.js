@@ -1,12 +1,14 @@
 import assert from 'assert';
-import { curry } from 'ramda';
-import { getId } from '../selectors/feature';
+import { compose, curry, lensProp, set } from 'ramda';
+import { getId, withLens } from '../selectors/feature';
 import { appHasFeature } from '../selectors/app';
-import { assocWith } from '.';
 
-const withRequireFeature = assocWith('require');
+const configLens = lensProp('require');
+const withRequireLens = compose(withLens, configLens);
 
-const withRequireFeatureEvaluator = curry((key, params) => {
+export const withRequireFeature = set(withRequireLens);
+
+export const withRequireFeatureEvaluator = curry((key, params) => {
   const id = getId(params.feature);
 
   assert(
@@ -14,5 +16,3 @@ const withRequireFeatureEvaluator = curry((key, params) => {
     `feature "${key}" is required by feature "${id}"`,
   );
 });
-
-export { withRequireFeature, withRequireFeatureEvaluator };

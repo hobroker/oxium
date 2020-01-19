@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import { compose, forEach, converge, curry, map } from 'ramda';
+import { compose, forEach, converge, curry, map, defaultTo } from 'ramda';
 import { string } from 'yup';
 import { withConfig } from '../../lib/feature/withConfig';
 import { setId } from '../../lib/selectors/feature';
 import { getConfig } from '../../lib/selectors/params';
 import mongoSubject from './mongoSubject';
 import { withModels } from './withModels';
-import { getModels } from './mongo-selectors';
+import { getModels } from './selectors';
 import { getModelMeta } from './util';
 
 const MONGO = 'mongo';
@@ -26,25 +26,25 @@ const loadModels = curry((mongo, models) =>
 
 const handler = converge(
   async (config, models) => {
-    console.log('models', models);
-    const { connectionString } = config;
-
-    console.log('connecting to %s', connectionString);
-
-    const mongo = await mongoose.connect(connectionString, options);
-
-    console.log('connected');
-
-    compose(loadModels(mongo), prepareModels)(models);
-
-    mongoSubject.next(mongo);
+    console.log('config', config);
+    // const { connectionString } = config;
+    //
+    // console.log('connecting to %s', connectionString);
+    //
+    // const mongo = await mongoose.connect(connectionString, options);
+    //
+    // console.log('connected');
+    //
+    // compose(loadModels(mongo), prepareModels)(models);
+    //
+    // mongoSubject.next(mongo);
 
     return () => {
       console.log('Mongo onUnload ...args2');
       mongoSubject.complete();
     };
   },
-  [getConfig, getModels],
+  [getConfig, compose(defaultTo([]), getModels)],
 );
 
 const Mongo = compose(

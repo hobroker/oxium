@@ -1,11 +1,14 @@
-import { compose, concat, curry, values } from 'ramda';
-import { assocWith } from '../../lib/feature';
+import { compose, concat, curry, lensProp, set, values } from 'ramda';
 import { getAppFeatureById } from '../../lib/selectors/params';
-import { getPropsModels } from './mongo-selectors';
+import { getPropsModels } from './selectors';
+import { withLens } from '../../lib/selectors/feature';
 
-const withModels = assocWith('models');
+const configLens = lensProp('models');
+const withRequireLens = compose(withLens, configLens);
 
-const withModelsEvaluator = curry((models, params) => {
+export const withModels = set(withRequireLens);
+
+export const withModelsEvaluator = curry((models, params) => {
   const mongoFeature = getAppFeatureById(params);
   if (!mongoFeature.props.models) {
     mongoFeature.props.models = [];
@@ -18,5 +21,3 @@ const withModelsEvaluator = curry((models, params) => {
 
   return null;
 });
-
-export { withModels, withModelsEvaluator };

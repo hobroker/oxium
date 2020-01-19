@@ -7,11 +7,9 @@ const configLens = lensProp('config');
 const withConfigLens = compose(withLens, configLens);
 const propsConfigLens = compose(propsLens, configLens);
 
-export const withConfig = set(withConfigLens);
-
 export const setPropsConfig = set(propsConfigLens);
 
-export const withConfigEvaluator = curry((configValidationSchema, params) => {
+export const withConfig2Evaluator = curry((configValidationSchema, params) => {
   const featuresConfig = getFeatureConfig(params);
 
   if (!configValidationSchema) {
@@ -23,4 +21,8 @@ export const withConfigEvaluator = curry((configValidationSchema, params) => {
   const config = validationSchema.validateSync(featuresConfig);
 
   return setPropsConfig(config);
+});
+
+export const withConfig2 = curry((meta, feature) => {
+  feature.with.set(withConfig2Evaluator, meta);
 });

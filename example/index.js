@@ -1,27 +1,24 @@
-import { pipe } from 'ramda';
-import { callAll, filterFunctions, logAndContinue, safe } from './lib/util';
-import { evaluateAndAssocProps, loadFeatures } from './lib/util/app';
-import { withConfigEvaluator } from './lib/feature/withConfig';
-import { withRequireFeatureEvaluator } from './lib/feature/withRequireFeature';
-import { withModelsEvaluator } from './features/mongo/withModels';
-import config from './config';
-import Mongo from './features/mongo';
+import { compose, map } from 'ramda';
 import Demo from './features/demo';
+import { applyToLater } from './lib/util';
+import { resolveInChunks } from './lib/util/resolveInChunks';
+import { getHandler } from './lib/selectors/feature';
 import { getFeatures } from './lib/selectors/params';
+import config from './config';
 
-const evaluators = {
-  config: withConfigEvaluator,
-  require: withRequireFeatureEvaluator,
-  models: withModelsEvaluator,
-};
+const features = [Demo];
 
-const features = [Mongo, Demo];
+(async () => {
+  const applyFeaturesHandler = app =>
+    compose(
+      resolveInChunks(2),
+      map(compose(applyToLater([app]), getHandler)),
+      getFeatures,
+    )(app);
 
-const app = { config, features, evaluators };
+  const data = {
+    result: await applyFeaturesHandler({ config, features }),
+  };
 
-const run = pipe(
-  evaluateAndAssocProps,
-  safe(pipe(getFeatures, loadFeatures, callAll, filterFunctions, callAll)),
-);
-
-run(app);
+  console.log('data', data);
+})();
