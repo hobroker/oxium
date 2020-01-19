@@ -1,15 +1,5 @@
-import {
-  append,
-  call,
-  compose,
-  converge,
-  curry,
-  filter,
-  identity,
-  map,
-} from 'ramda';
-import { isFunction, appendFlipped } from 'ramda-adjunct';
-import { debugIt } from './debug';
+import { call, compose, converge, curry, filter, identity, map } from 'ramda';
+import { appendFlipped, isFunction } from 'ramda-adjunct';
 
 export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {

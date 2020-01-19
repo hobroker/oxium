@@ -3,6 +3,7 @@ import { isFunction, isNotFunction, isUndefined } from 'ramda-adjunct';
 import { getWithProp, setProps } from '../selectors/feature';
 import { getFeatures } from '../selectors/params';
 import { shouldAddToProps } from './app';
+import { debugIt } from './debug';
 
 const evaluateEvaluator = curry((params, evaluator, data) => {
   if (isNotFunction(evaluator) || isUndefined(data)) {
@@ -22,7 +23,7 @@ export const evaluateWith = curry((app, feature) => {
     const data = getWithProp(key, feature);
     const evalResult = evaluate(evaluator, data);
     if (isFunction(evalResult)) {
-      console.log('evalResult', evalResult(feature).props, feature.props);
+      debugIt('evalResult', evalResult(feature).props, feature.props);
     }
 
     if (shouldAddToProps(evalResult)) {

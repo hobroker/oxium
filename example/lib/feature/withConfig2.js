@@ -1,10 +1,9 @@
 import * as yup from 'yup';
 import { compose, curry, lensProp, or, set } from 'ramda';
 import { getFeatureConfig } from '../selectors/params';
-import { propsLens, withLens } from '../selectors/feature';
+import { propsLens } from '../selectors/feature';
 
 const configLens = lensProp('config');
-const withConfigLens = compose(withLens, configLens);
 const propsConfigLens = compose(propsLens, configLens);
 
 export const setPropsConfig = set(propsConfigLens);

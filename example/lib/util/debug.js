@@ -7,7 +7,6 @@ export const debugIt = (...args) => appDebug(...args);
 
 export const debugItFp = (...args) => {
   debugIt('args:', ...args);
-  console.log('args:', ...args);
 
   return args[0];
 };

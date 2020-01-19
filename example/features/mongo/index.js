@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { compose, forEach, converge, curry, map, defaultTo } from 'ramda';
+/* eslint-disable */
+import { compose, converge, curry, defaultTo, forEach, map } from 'ramda';
 import { string } from 'yup';
 import { withConfig } from '../../lib/feature/withConfig';
 import { setId } from '../../lib/selectors/feature';
