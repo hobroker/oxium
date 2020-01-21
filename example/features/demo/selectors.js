@@ -1,6 +1,6 @@
 import { compose, lensProp, view } from 'ramda';
+import { MONGO } from '../mongo';
 import { configFeaturesLens } from '../../lib/selectors/config';
-import { MONGO } from '.';
 
 export const mongoLens = lensProp(MONGO);
 export const configFeaturesMongoLens = compose(configFeaturesLens, mongoLens);

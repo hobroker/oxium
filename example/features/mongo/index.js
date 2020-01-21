@@ -1,32 +1,26 @@
-/* eslint-disable */
-import { compose, converge, curry, defaultTo, forEach, map } from 'ramda';
-import { string } from 'yup';
-import { withConfig } from '../../lib/feature/withConfig';
-import { setId } from '../../lib/selectors/feature';
-import { getConfig } from '../../lib/selectors/params';
-import mongoSubject from './mongoSubject';
-import { withModels } from './withModels';
-import { getModels } from './selectors';
-import { getModelMeta } from './util';
+import { compose, converge, T } from 'ramda';
+import { getMongoConfig } from './selectors';
+import deferHandler from '../../lib/feature/deferHandler';
+import { debugIt } from '../../lib/util/debug';
 
-const MONGO = 'mongo';
+export const MONGO = 'mongo';
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-const prepareModels = map(getModelMeta);
-
-const loadModels = curry((mongo, models) =>
-  forEach(({ Model, schema, name }) => {
-    mongo.model(Model, schema, name);
-  }, models),
-);
+// const options = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// };
+//
+// const prepareModels = map(getModelMeta);
+//
+// const loadModels = curry((mongo, models) =>
+//   forEach(({ Model, schema, name }) => {
+//     mongo.model(Model, schema, name);
+//   }, models),
+// );
 
 const handler = converge(
-  async (config, models) => {
-    console.log('config', config);
+  async config => {
+    debugIt('config', config);
     // const { connectionString } = config;
     //
     // console.log('connecting to %s', connectionString);
@@ -38,23 +32,13 @@ const handler = converge(
     // compose(loadModels(mongo), prepareModels)(models);
     //
     // mongoSubject.next(mongo);
-
-    return () => {
-      console.log('Mongo onUnload ...args2');
-      mongoSubject.complete();
-    };
   },
-  [getConfig, compose(defaultTo([]), getModels)],
+  [getMongoConfig],
 );
 
-const Mongo = compose(
-  setId(MONGO),
-  withConfig({
-    connectionString: string().required(),
-  }),
-  withModels([]),
-)({ handler });
+const Mongo = compose(deferHandler(T))({
+  id: MONGO,
+  handler,
+});
 
-export { mongoSubject };
-export { MONGO };
 export default Mongo;

@@ -1,10 +1,13 @@
-import { call, compose, map, reduce, splitEvery } from 'ramda';
+import { call, compose, curryN, map, reduce, splitEvery } from 'ramda';
 import { promiseAll } from './index';
 
-export const resolveInChunks = compose(
-  reduce(
-    (p, chunk) => p.then(() => compose(promiseAll, map(call))(chunk)),
-    Promise.resolve(),
+export const resolveInChunks = curryN(
+  2,
+  compose(
+    reduce(
+      (p, chunk) => p.then(() => compose(promiseAll, map(call))(chunk)),
+      Promise.resolve(),
+    ),
+    splitEvery,
   ),
-  splitEvery,
 );

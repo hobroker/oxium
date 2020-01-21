@@ -1,17 +1,15 @@
-import { compose, keys } from 'ramda';
+import { compose, converge, T } from 'ramda';
+import deferHandler from '../../lib/feature/deferHandler';
+import { getMongoConfig } from './selectors';
 import { debugIt } from '../../lib/util/debug';
-import { setId } from '../../lib/selectors/feature';
 
-const DEMO = 'demo';
+export const DEMO = 'demo';
 
-const handler = async app => {
-  debugIt('Demo start', keys(app));
-  // await wait(2000);
+const handler = converge(debugIt, [getMongoConfig]);
 
-  return '1';
-};
+const Demo = compose(deferHandler(T))({
+  id: DEMO,
+  handler,
+});
 
-const Demo = compose(setId(DEMO))({ handler });
-
-export { DEMO };
 export default Demo;

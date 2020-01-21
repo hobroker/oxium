@@ -1,5 +1,5 @@
-import { call, compose, converge, curry, filter, identity, map } from 'ramda';
-import { appendFlipped, isFunction } from 'ramda-adjunct';
+import { compose, converge, curry, identity } from 'ramda';
+import { appendFlipped } from 'ramda-adjunct';
 
 export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {
@@ -11,17 +11,8 @@ export const assignOnce = curry((key, value, target) => {
   return target;
 });
 
-export const callAll = map(call);
-
 export const promiseAll = array => Promise.all(array);
 
-export const applyToLater = curry((args, f) => () => f(...args));
-
-export const filterFunctions = filter(isFunction);
-
-/**
- * @deprecated
- */
 export const safe = compose(converge(identity), appendFlipped([identity]));
 
 export const measureTime = () => {

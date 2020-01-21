@@ -1,25 +1,15 @@
-import { compose, map } from 'ramda';
-import Demo from './features/demo';
-import { applyToLater } from './lib/util';
-import { resolveInChunks } from './lib/util/resolveInChunks';
-import { getHandler } from './lib/selectors/feature';
-import { getFeatures } from './lib/selectors/params';
+import { applyTo, compose, take } from 'ramda';
 import config from './config';
 import { debugIt } from './lib/util/debug';
+import { prepareFeatureHandlers, resolveHandlers } from './lib';
+import Demo from './features/demo';
+import Second from './features/second';
+import Mongo from './features/mongo';
 
-const features = [Demo];
+const features = [Demo, Mongo, Second];
+const app = { config, features };
 
-(async () => {
-  const applyFeaturesHandler = app =>
-    compose(
-      resolveInChunks(2),
-      map(compose(applyToLater([app]), getHandler)),
-      getFeatures,
-    )(app);
-
-  const data = {
-    result: await applyFeaturesHandler({ config, features }),
-  };
-
-  debugIt('data', data);
-})();
+compose(
+  resolveHandlers(take(2), applyTo(app)),
+  prepareFeatureHandlers,
+)(app).then(debugIt);
