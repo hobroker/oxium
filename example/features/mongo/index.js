@@ -1,40 +1,29 @@
-import { isMongoLoaded } from './selectors';
+import mongoose from 'mongoose';
+import { converge } from 'ramda';
+import { getMongoConfig } from './selectors';
+import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
 import { debugIt } from '../../lib/util/debug';
 
-const MONGO = 'mongo';
+const handler = converge(
+  async config => {
+    const { connectionString } = config;
 
-// const options = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// };
-//
-// const prepareModels = map(getModelMeta);
-//
-// const loadModels = curry((mongo, models) =>
-//   forEach(({ Model, schema, name }) => {
-//     mongo.model(Model, schema, name);
-//   }, models),
-// );
+    debugIt(MONGO, 'connecting to %s', connectionString);
 
-const handler = async config => {
-  debugIt('config', isMongoLoaded(config));
-  // const { connectionString } = config;
-  //
-  // console.log('connecting to %s', connectionString);
-  //
-  // const mongo = await mongoose.connect(connectionString, options);
-  //
-  // console.log('connected');
-  //
-  // compose(loadModels(mongo), prepareModels)(models);
-  //
-  // mongoSubject.next(mongo);
-};
+    // eslint-disable-next-line no-unused-vars
+    const mongo = await mongoose.connect(
+      connectionString,
+      MONGOOSE_CONNECT_OPTIONS,
+    );
+
+    debugIt(MONGO, 'connected');
+  },
+  [getMongoConfig],
+);
 
 const Mongo = {
   id: MONGO,
   handler,
 };
 
-export { MONGO };
 export default Mongo;

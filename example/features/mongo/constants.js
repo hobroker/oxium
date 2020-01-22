@@ -1,0 +1,6 @@
+export const MONGO = 'mongo';
+
+export const MONGOOSE_CONNECT_OPTIONS = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};

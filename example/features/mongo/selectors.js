@@ -4,7 +4,7 @@ import {
   featureByIdLens,
   featureMetaIsLoadedLens,
 } from '../../lib/selectors/app';
-import { MONGO } from '.';
+import { MONGO } from './constants';
 
 export const mongoLens = lensProp(MONGO);
 export const configFeaturesMongoLens = compose(configFeaturesLens, mongoLens);

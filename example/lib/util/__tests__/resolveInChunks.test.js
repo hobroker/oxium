@@ -1,5 +1,5 @@
 import { wait } from '../../../../src/util';
-import { debugItTime } from '../debug';
+import { debugItTime } from '../benchmark';
 import { resolveInChunks } from '../resolveInChunks';
 
 it('should resolve in chunks of 2 in in 700-710ms', async () => {

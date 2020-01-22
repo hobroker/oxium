@@ -10,6 +10,8 @@ export const isLoadedLens = lensProp('isLoaded');
 // meta/*Lens
 export const metaIsLoadedLens = compose(metaLens, isLoadedLens);
 
+export const getId = view(idLens);
+
 export const getHandler = view(handlerLens);
 export const updateHandler = over(handlerLens);
 

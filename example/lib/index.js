@@ -1,7 +1,8 @@
 import { compose, curry, curryN, map } from 'ramda';
-import { isNothing, promiseAll, readArray } from './util';
-import { getHandler, setMeta, setFeatureIsLoaded } from './selectors/feature';
+import { isNothing, promiseAll } from './util';
+import { getHandler, setFeatureIsLoaded, setMeta } from './selectors/feature';
 import { areAllFeaturesLoaded } from './selectors/features';
+import { setFeatures } from './selectors/app';
 
 export const resolveHandlersPure = curryN(2, compose(promiseAll, map));
 
@@ -13,14 +14,19 @@ export const resolveHandlers = curry(async (takeFn, callFn, features) => {
   const pickedFeatures = takeFn(features);
   const handlers = map(getHandler, pickedFeatures);
 
-  const results = await resolveHandlersPure(callFn({ features }), handlers);
-  const nextResult = readArray(results);
+  const results = await resolveHandlersPure(
+    callFn(setFeatures(features, {})),
+    handlers,
+  );
+  const resultsMap2 = results.reduce(
+    (acc, item, idx) => acc.set(pickedFeatures[idx], item),
+    new Map(),
+  );
   const updatedFeatures = map(feature => {
-    if (!handlers.includes(feature.handler)) {
-      return feature;
-    }
-    const result = nextResult();
-    if (isNothing(result)) {
+    if (
+      !handlers.includes(feature.handler) ||
+      isNothing(resultsMap2.get(feature))
+    ) {
       return feature;
     }
 
@@ -30,6 +36,6 @@ export const resolveHandlers = curry(async (takeFn, callFn, features) => {
   return resolveHandlers(takeFn, callFn, updatedFeatures);
 });
 
-export const attachDefaultMeta = setMeta({
+export const setDefaultMeta = setMeta({
   isLoaded: false,
 });
