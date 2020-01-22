@@ -1,14 +1,4 @@
-import {
-  curry,
-  find,
-  findIndex,
-  identity,
-  lens,
-  propEq,
-  update,
-  useWith,
-  view,
-} from 'ramda';
+import { curry, find, findIndex, lens, propEq, update } from 'ramda';
 
 const createLensFindByProp = curry((propName, propValue) =>
   lens(find(propEq(propName, propValue)), (val, arr) => {
@@ -20,19 +10,3 @@ const createLensFindByProp = curry((propName, propValue) =>
 );
 
 export const byIdLens = createLensFindByProp('id');
-
-export const getById = useWith(view, [byIdLens, identity]);
-
-// const items = {
-//   features: [
-//     { id: 'mongo', handler: 1 },
-//     { id: 'demo', handler: 2 },
-//   ],
-// };
-//
-// const updateHandler = over(
-//   featuresLens,
-//   map(over(byIdLens('mongo'), setHandler('33'))),
-// );
-
-// console.log(JSON.stringify(converge(assocPath,[]), null, 2));

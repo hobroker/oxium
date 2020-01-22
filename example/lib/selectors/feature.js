@@ -1,20 +1,20 @@
-import { identity, lensProp, prop, set, useWith, view } from 'ramda';
+import { compose, lensProp, over, set, view } from 'ramda';
 
 export const idLens = lensProp('id');
 export const handlerLens = lensProp('handler');
-export const propsLens = lensProp('props');
-export const withLens = lensProp('with');
-export const evaluatorsLens = lensProp('evaluators');
 
-export const getId = view(idLens);
-export const setId = set(idLens);
+// meta/
+export const metaLens = lensProp('_');
+export const isLoadedLens = lensProp('isLoaded');
+
+// meta/*Lens
+export const metaIsLoadedLens = compose(metaLens, isLoadedLens);
 
 export const getHandler = view(handlerLens);
-export const setHandler = set(handlerLens);
+export const updateHandler = over(handlerLens);
 
-export const getProps = view(propsLens);
-export const setProps = set(propsLens);
+export const setMeta = set(metaLens);
 
-export const getWith = view(withLens);
+export const isFeatureLoaded = view(metaIsLoadedLens);
 
-export const getWithProp = useWith(prop, [identity, getWith]);
+export const setFeatureIsLoaded = set(metaIsLoadedLens);

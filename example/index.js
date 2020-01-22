@@ -1,15 +1,22 @@
-import { applyTo, compose, take } from 'ramda';
+import { applyTo, compose, filter, map, mergeRight, not, take } from 'ramda';
+import { noop } from 'rxjs';
 import config from './config';
-import { debugIt } from './lib/util/debug';
-import { prepareFeatureHandlers, resolveHandlers } from './lib';
+import { attachDefaultMeta, resolveHandlers } from './lib';
 import Demo from './features/demo';
 import Second from './features/second';
 import Mongo from './features/mongo';
+import { getFeatures } from './lib/selectors/app';
+import { isFeatureLoaded } from './lib/selectors/feature';
 
-const features = [Demo, Mongo, Second];
-const app = { config, features };
+const features = [Demo, Second, Mongo];
+const app = {
+  config,
+  features: map(attachDefaultMeta, features),
+};
+
+const takeFn = compose(take(2), filter(compose(not, isFeatureLoaded)));
 
 compose(
-  resolveHandlers(take(2), applyTo(app)),
-  prepareFeatureHandlers,
-)(app).then(debugIt);
+  resolveHandlers(takeFn, compose(applyTo, mergeRight(app))),
+  getFeatures,
+)(app).then(noop);

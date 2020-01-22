@@ -1,41 +1,35 @@
-import {
-  __,
-  and,
-  compose,
-  curry,
-  curryN,
-  identity,
-  includes,
-  map,
-  not,
-  useWith,
-} from 'ramda';
-import { isEmptyArray, mapIndexed, omitIndexes } from 'ramda-adjunct';
-import { isNothing } from 'sanctuary';
-import { promiseAll } from './util';
-import { getFeatures } from './selectors/params';
-import { getHandler } from './selectors/feature';
-
-export const prepareFeatureHandlers = compose(map(getHandler), getFeatures);
+import { compose, curry, curryN, map } from 'ramda';
+import { isNothing, promiseAll, readArray } from './util';
+import { getHandler, setMeta, setFeatureIsLoaded } from './selectors/feature';
+import { areAllFeaturesLoaded } from './selectors/features';
 
 export const resolveHandlersPure = curryN(2, compose(promiseAll, map));
 
-export const resolveHandlers = curry(async (takeFn, callFn, handlers) => {
-  if (isEmptyArray(handlers)) {
-    return null;
+export const resolveHandlers = curry(async (takeFn, callFn, features) => {
+  if (areAllFeaturesLoaded(features)) {
+    return features;
   }
 
-  const pickedHandlers = takeFn(handlers);
-  const omitUnresolvedHandlers = compose(
-    omitIndexes(__, pickedHandlers),
-    mapIndexed(useWith(and, [isNothing, identity])),
-  );
+  const pickedFeatures = takeFn(features);
+  const handlers = map(getHandler, pickedFeatures);
 
-  const results = await resolveHandlersPure(callFn, pickedHandlers);
-  const resolvedHandlers = omitUnresolvedHandlers(results);
-  const handlersLeft = handlers.filter(
-    compose(not, includes(__, resolvedHandlers)),
-  );
+  const results = await resolveHandlersPure(callFn({ features }), handlers);
+  const nextResult = readArray(results);
+  const updatedFeatures = map(feature => {
+    if (!handlers.includes(feature.handler)) {
+      return feature;
+    }
+    const result = nextResult();
+    if (isNothing(result)) {
+      return feature;
+    }
 
-  return resolveHandlers(takeFn, callFn, handlersLeft);
+    return setFeatureIsLoaded(true, feature);
+  }, features);
+
+  return resolveHandlers(takeFn, callFn, updatedFeatures);
+});
+
+export const attachDefaultMeta = setMeta({
+  isLoaded: false,
 });

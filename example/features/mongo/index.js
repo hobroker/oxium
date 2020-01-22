@@ -1,9 +1,7 @@
-import { compose, converge, T } from 'ramda';
-import { getMongoConfig } from './selectors';
-import deferHandler from '../../lib/feature/deferHandler';
+import { isMongoLoaded } from './selectors';
 import { debugIt } from '../../lib/util/debug';
 
-export const MONGO = 'mongo';
+const MONGO = 'mongo';
 
 // const options = {
 //   useNewUrlParser: true,
@@ -18,27 +16,25 @@ export const MONGO = 'mongo';
 //   }, models),
 // );
 
-const handler = converge(
-  async config => {
-    debugIt('config', config);
-    // const { connectionString } = config;
-    //
-    // console.log('connecting to %s', connectionString);
-    //
-    // const mongo = await mongoose.connect(connectionString, options);
-    //
-    // console.log('connected');
-    //
-    // compose(loadModels(mongo), prepareModels)(models);
-    //
-    // mongoSubject.next(mongo);
-  },
-  [getMongoConfig],
-);
+const handler = async config => {
+  debugIt('config', isMongoLoaded(config));
+  // const { connectionString } = config;
+  //
+  // console.log('connecting to %s', connectionString);
+  //
+  // const mongo = await mongoose.connect(connectionString, options);
+  //
+  // console.log('connected');
+  //
+  // compose(loadModels(mongo), prepareModels)(models);
+  //
+  // mongoSubject.next(mongo);
+};
 
-const Mongo = compose(deferHandler(T))({
+const Mongo = {
   id: MONGO,
   handler,
-});
+};
 
+export { MONGO };
 export default Mongo;

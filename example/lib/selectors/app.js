@@ -1,12 +1,18 @@
-import { compose, curry, includes, lensProp } from 'ramda';
-import { getAllFeatureIds } from './params';
+import { always, compose, converge, lensProp, nthArg, view } from 'ramda';
+import { metaIsLoadedLens } from './feature';
+import { byIdLens } from '.';
 
 export const featuresLens = lensProp('features');
 
-// export const
+export const featureByIdLens = converge(compose, [
+  always(featuresLens),
+  compose(byIdLens, nthArg(0)),
+]);
 
-export const appHasFeature = curry((key, params) =>
-  compose(includes(key), getAllFeatureIds)(params),
-);
+export const featureMetaIsLoadedLens = converge(compose, [
+  always(featuresLens),
+  compose(byIdLens, nthArg(0)),
+  always(metaIsLoadedLens),
+]);
 
-// export update
+export const getFeatures = view(featuresLens);
