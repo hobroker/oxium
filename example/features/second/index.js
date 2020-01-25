@@ -1,4 +1,4 @@
-import { debugIt } from '../../lib/util/debug';
+import { debugIt } from '../../../src/util/debug';
 
 const SECOND = 'second';
 

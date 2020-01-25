@@ -1,41 +1,7 @@
-import * as _ from 'lodash/fp';
+import { compose, converge, curry, identity, reduce, toPairs } from 'ramda';
+import { appendFlipped } from 'ramda-adjunct';
 
-/**
- * @param {Function} fn
- * @param {Array} array
- * @returns {Promise<*>}
- */
-const resolveSequentially = _.curry((fn, array) =>
-  _.reduce((p, item) => p.then(() => fn(item)), Promise.resolve(), array),
-);
-
-const mapTo = _.curry((map, object) => {
-  const defaultValue = Array.isArray(map) ? [] : {};
-  const computeResult = value => {
-    switch (true) {
-      case _.isFunction(value):
-        return value(object);
-      case _.isObject(value):
-        return mapTo(value, object);
-      case _.isString(value):
-        return _.prop(value, object);
-      case _.isArray(value):
-        return _.pick(value, object);
-      default:
-        return value;
-    }
-  };
-
-  return _.entries(map).reduce((acc, [key, value]) => {
-    acc[key] = computeResult(value);
-
-    return acc;
-  }, defaultValue);
-});
-
-const wait = ms => new Promise(r => setTimeout(() => r(ms), ms));
-
-const assignOnce = _.curry((key, value, target) => {
+export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {
     writable: false,
     configurable: false,
@@ -45,7 +11,19 @@ const assignOnce = _.curry((key, value, target) => {
   return target;
 });
 
-const call = fn => fn();
+export const promiseAll = array => Promise.all(array);
 
-export { assignOnce, call, mapTo, resolveSequentially, wait };
-export * from './decorators';
+export const ensurePromise = value => Promise.resolve(value);
+
+export const safe = compose(converge(identity), appendFlipped([identity]));
+
+export const noop = () => {};
+
+export const wait = ms => new Promise(r => setTimeout(() => r(ms), ms));
+
+export const reduceObjIndexed = curry((fn, acc, obj) =>
+  compose(
+    reduce((result, [key, value]) => fn(result, value, key, obj), acc),
+    toPairs,
+  )(obj),
+);

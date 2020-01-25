@@ -2,13 +2,15 @@ import mongoose from 'mongoose';
 import { converge } from 'ramda';
 import { getMongoConfig } from './selectors';
 import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
-import { debugIt } from '../../lib/util/debug';
+import { createDebug } from '../../../src/util/debug';
+
+const debug = createDebug(MONGO);
 
 const handler = converge(
   async config => {
     const { connectionString } = config;
 
-    debugIt(MONGO, 'connecting to %s', connectionString);
+    debug('connecting to %s', connectionString);
 
     // eslint-disable-next-line no-unused-vars
     const mongo = await mongoose.connect(
@@ -16,7 +18,7 @@ const handler = converge(
       MONGOOSE_CONNECT_OPTIONS,
     );
 
-    debugIt(MONGO, 'connected');
+    debug('connected');
   },
   [getMongoConfig],
 );

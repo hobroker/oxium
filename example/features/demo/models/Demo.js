@@ -2,7 +2,7 @@
 // import { withMongoSchema } from '../../mongo/mongo-decorators';
 
 import AbstractModel from '../../mongo/AbstractModel';
-import { assignOnce } from '../../../lib/util';
+import { assignOnce } from '../../../../src/util';
 
 @assignOnce('SCHEMA', {
   name: {

@@ -6,8 +6,9 @@ export const createDebug = key => appDebug.extend(key);
 
 export const debugIt = (...args) => appDebug(...args);
 
+export const debugFp = createDebug('fp');
 export const debugItFp = (...args) => {
-  debugIt('FP:', ...args);
+  debugFp(args);
 
   return args[0];
 };

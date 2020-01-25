@@ -1,9 +1,9 @@
 import { compose, lensProp, view } from 'ramda';
-import { configFeaturesLens } from '../../lib/selectors/config';
+import { configFeaturesLens } from '../../../src/selectors/config';
 import {
   featureByIdLens,
   featureMetaIsLoadedLens,
-} from '../../lib/selectors/app';
+} from '../../../src/selectors/app';
 import { MONGO } from './constants';
 
 export const mongoLens = lensProp(MONGO);

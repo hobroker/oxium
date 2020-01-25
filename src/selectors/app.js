@@ -1,6 +1,6 @@
 import { always, compose, converge, lensProp, nthArg, set, view } from 'ramda';
 import { metaIsLoadedLens } from './feature';
-import { byIdLens } from '.';
+import { byIdLens } from './index';
 
 export const featuresLens = lensProp('features');
 
