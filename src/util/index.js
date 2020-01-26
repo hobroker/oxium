@@ -1,5 +1,19 @@
-import { compose, converge, curry, identity, reduce, toPairs } from 'ramda';
-import { appendFlipped } from 'ramda-adjunct';
+import {
+  allPass,
+  applyTo,
+  compose,
+  converge,
+  curry,
+  identity,
+  ifElse,
+  propEq,
+  reduce,
+  then,
+  toPairs,
+  useWith,
+} from 'ramda';
+import { appendFlipped, isNotUndefined } from 'ramda-adjunct';
+import { Either, Right } from 'monet';
 
 export const assignOnce = curry((key, value, target) => {
   Object.defineProperty(target, key, {
@@ -19,7 +33,15 @@ export const safe = compose(converge(identity), appendFlipped([identity]));
 
 export const noop = () => {};
 
-export const wait = ms => new Promise(r => setTimeout(() => r(ms), ms));
+export const isEither = allPass([isNotUndefined, Either.isOfType]);
+
+export const isRight = allPass([isEither, propEq('isRightValue', true)]);
+
+export const isLeft = allPass([isEither, propEq('isRightValue', false)]);
+
+export const ensureEitherOrRight = ifElse(isEither, identity, Right);
+
+export const wait = ms => new Promise(r => setTimeout(applyTo(ms, r), ms));
 
 export const reduceObjIndexed = curry((fn, acc, obj) =>
   compose(
@@ -27,3 +49,5 @@ export const reduceObjIndexed = curry((fn, acc, obj) =>
     toPairs,
   )(obj),
 );
+
+export const thenApplyTo = useWith(then, [applyTo, identity]);

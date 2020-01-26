@@ -19,6 +19,8 @@ const handler = converge(
     );
 
     debug('connected');
+
+    return mongo;
   },
   [getMongoConfig],
 );

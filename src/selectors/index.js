@@ -1,6 +1,6 @@
 import { curry, find, findIndex, lens, propEq, update } from 'ramda';
 
-const createLensFindByProp = curry((propName, propValue) =>
+const createFindByPropLens = curry((propName, propValue) =>
   lens(find(propEq(propName, propValue)), (val, arr) => {
     const index = findIndex(propEq(propName, propValue), arr);
     const replaceIndex = index > -1 ? index : arr.length;
@@ -9,4 +9,4 @@ const createLensFindByProp = curry((propName, propValue) =>
   }),
 );
 
-export const byIdLens = createLensFindByProp('id');
+export const byIdLens = createFindByPropLens('id');

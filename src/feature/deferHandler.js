@@ -1,20 +1,28 @@
 import { Left, Right } from 'monet';
-import { apply, compose, curry, identity, then, useWith } from 'ramda';
+import {
+  always,
+  apply,
+  compose,
+  curry,
+  identity,
+  ifElse,
+  then,
+  useWith,
+} from 'ramda';
 import { ensurePromise } from '../util';
 import { updateHandler } from '../selectors/feature';
 
-const callHandler = handler =>
-  compose(then(Right), ensurePromise, apply(handler));
+const callHandler = handler => compose(ensurePromise, apply(handler));
 
 const handlerTransformation = curry((validator, originalHandler) => (...args) =>
   compose(
-    then(valid => {
-      if (!valid) {
-        return Left(null);
-      }
-
-      return callHandler(originalHandler)(args);
-    }),
+    then(
+      ifElse(
+        identity,
+        compose(then(Right), apply(callHandler(originalHandler)), always(args)),
+        compose(Left, always(null)),
+      ),
+    ),
     ensurePromise,
     apply(validator),
   )(args),
