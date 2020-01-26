@@ -10,5 +10,5 @@ export const createSchema = value => new Schema(value, schemaOptions);
 export const getModelMeta = applySpec({
   Model: identity,
   name: prop('name'),
-  schema: compose(createSchema, prop('SCHEMA')),
+  schema: compose(createSchema, prop('schema')),
 });

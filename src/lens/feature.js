@@ -36,10 +36,10 @@ export const isFeatureUnloaded = compose(not, isFeatureLoaded);
 
 export const setFeatureIsLoaded = set(metaIsLoadedLens);
 
-export const featureIdEq = compose(propEq('id'), getId);
-
 export const setHandlerResult = set(metaResultLens);
 export const setDefaultMeta = setFeatureIsLoaded(false);
+
+export const featureIdEq = compose(propEq('id'), getId);
 
 export const rightResultCata = converge(compose, [
   always(setFeatureIsLoaded(true)),

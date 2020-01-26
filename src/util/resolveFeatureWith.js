@@ -10,11 +10,7 @@ import {
   useWith,
 } from 'ramda';
 import { cata, ensureArray } from 'ramda-adjunct';
-import {
-  getHandler,
-  leftResultCata,
-  rightResultCata,
-} from '../selectors/feature';
+import { getHandler, leftResultCata, rightResultCata } from '../lens/feature';
 import { ensureEitherOrRight, ensurePromise, thenApplyTo } from './index';
 
 export const formatAppArgument = identity;

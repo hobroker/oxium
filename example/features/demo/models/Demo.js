@@ -1,10 +1,8 @@
-// import { AbstractModel } from '../../mongo';
-// import { withMongoSchema } from '../../mongo/mongo-decorators';
+import AbstractModel, { withSchema } from '../../mongo/AbstractModel';
 
-import AbstractModel from '../../mongo/AbstractModel';
-import { assignOnce } from '../../../../src/util';
+class Demo extends AbstractModel {}
 
-@assignOnce('SCHEMA', {
+const schema = {
   name: {
     type: String,
     required: true,
@@ -13,7 +11,6 @@ import { assignOnce } from '../../../../src/util';
     type: Number,
     required: false,
   },
-})
-class Demo extends AbstractModel {}
+};
 
-export default Demo;
+export default withSchema(schema, Demo);

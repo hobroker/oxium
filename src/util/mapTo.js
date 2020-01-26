@@ -9,7 +9,7 @@ import {
   nthArg,
   prop,
 } from 'ramda';
-import { isFunction, isObject, isString, stubObject } from 'ramda-adjunct';
+import { isFunction, isObject, isString, stubObj } from 'ramda-adjunct';
 import { reduceObjIndexed } from './index';
 
 const findTransformer = recursiveFn => value => {
@@ -35,7 +35,7 @@ const mapTo = curry((spec, object) =>
       compose(applyTo(object), findTransformer(mapTo), nthArg(1)),
       nthArg(0),
     ]),
-    stubObject(),
+    stubObj(),
     spec,
   ),
 );

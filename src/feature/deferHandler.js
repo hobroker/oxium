@@ -10,7 +10,7 @@ import {
   useWith,
 } from 'ramda';
 import { ensurePromise } from '../util';
-import { updateHandler } from '../selectors/feature';
+import { updateHandler } from '../lens/feature';
 
 const callHandler = handler => compose(ensurePromise, apply(handler));
 

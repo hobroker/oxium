@@ -1,6 +1,6 @@
-import assert from 'assert';
 import * as _ from 'lodash/fp';
 import { Model } from 'mongoose';
+import { assignOnce } from '../../../src/util';
 
 class AbstractModel extends Model {
   /**
@@ -10,8 +10,6 @@ class AbstractModel extends Model {
    * @private
    */
   static async findOrCreateOne(data, attr) {
-    assert('data', 'data is required');
-
     const filter = {};
     if (attr) {
       filter[attr] = data[attr];
@@ -53,5 +51,7 @@ class AbstractModel extends Model {
     return models;
   }
 }
+
+export const withSchema = assignOnce('schema');
 
 export default AbstractModel;

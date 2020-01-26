@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { converge } from 'ramda';
-import { getMongoConfig } from './selectors';
+import { getMongoConfig } from './lens';
 import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
 import { createDebug } from '../../../src/util/debug';
 

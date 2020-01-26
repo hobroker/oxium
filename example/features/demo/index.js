@@ -1,7 +1,7 @@
 import { compose } from 'ramda';
 import { deferHandler } from '../../../src/feature';
 import { debugIt } from '../../../src/util/debug';
-import { isMongoLoaded } from '../mongo/selectors';
+import { isMongoLoaded } from '../mongo/lens';
 
 export const DEMO = 'demo';
 

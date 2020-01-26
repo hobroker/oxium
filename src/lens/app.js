@@ -10,7 +10,7 @@ import {
   useWith,
   view,
 } from 'ramda';
-import { metaIsLoadedLens } from './feature';
+import { metaIsLoadedLens, setDefaultMeta } from './feature';
 import { findFeatureReplacement } from './features';
 import { byIdLens } from '.';
 
@@ -21,7 +21,7 @@ export const featureByIdLens = converge(compose, [
   compose(byIdLens, identity),
 ]);
 
-export const featureMetaIsLoadedLens = converge(compose, [
+export const featureByIdIsLoadedLens = converge(compose, [
   always(featuresLens),
   compose(byIdLens, identity),
   always(metaIsLoadedLens),
@@ -37,5 +37,10 @@ export const replaceFeaturesIn = converge(map, [
 
 export const replaceFeatures = converge(setFeatures, [
   useWith(replaceFeaturesIn, [getFeatures, identity]),
+  identity,
+]);
+
+export const resetMetaToFeature = useWith(setFeatures, [
+  map(setDefaultMeta),
   identity,
 ]);
