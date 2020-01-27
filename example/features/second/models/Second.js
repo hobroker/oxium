@@ -1,7 +1,7 @@
 import { AbstractModel } from '../../mongo';
 import { setSchema } from '../../mongo/lens';
 
-class Demo extends AbstractModel {}
+class Second extends AbstractModel {}
 
 const schema = {
   name: {
@@ -14,4 +14,4 @@ const schema = {
   },
 };
 
-export default setSchema(schema, Demo);
+export default setSchema(schema, Second);

@@ -1,11 +1,8 @@
 import debug from 'debug';
-import { tap } from 'ramda';
+import { compose, unapply } from 'ramda';
 
-const appDebug = debug('app');
+export const debugIt = debug('app');
 
-export const createDebug = key => appDebug.extend(key);
+export const createDebug = ::debugIt.extend;
 
-export const debugIt = (...args) => appDebug(...args);
-
-const debugFp = createDebug('fp');
-export const debugItFp = tap((...args) => debugFp(args));
+export const debugItFp = compose(unapply, createDebug)('fp');

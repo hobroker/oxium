@@ -16,6 +16,7 @@ export const handlerLens = lensProp('handler');
 
 // meta/
 export const metaLens = lensProp('_');
+// export const sharedLens = lensProp('_');
 export const isLoadedLens = lensProp('isLoaded');
 export const resultLens = lensProp('result');
 

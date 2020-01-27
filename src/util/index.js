@@ -2,34 +2,31 @@ import {
   allPass,
   applyTo,
   compose,
-  converge,
   curry,
   identity,
   ifElse,
+  not,
   propEq,
   reduce,
   then,
   toPairs,
   useWith,
+  when,
 } from 'ramda';
-import { appendFlipped, isNotUndefined } from 'ramda-adjunct';
+import { isNotUndefined, isPromise } from 'ramda-adjunct';
 import { Either, Right } from 'monet';
 
-export const assignOnce = curry((key, value, target) => {
-  Object.defineProperty(target, key, {
-    writable: false,
-    configurable: false,
-    value,
-  });
+export const assign = curry((key, value, target) => {
+  target[key] = value;
 
   return target;
 });
 
 export const promiseAll = array => Promise.all(array);
 
-export const ensurePromise = value => Promise.resolve(value);
+export const toPromise = value => Promise.resolve(value);
 
-export const safe = compose(converge(identity), appendFlipped([identity]));
+export const ensurePromise = when(compose(not, isPromise), toPromise);
 
 export const noop = () => {};
 

@@ -1,33 +1,37 @@
 import mongoose from 'mongoose';
 import { converge } from 'ramda';
+import { createDebug } from '../../../src/util/debug';
 import { getMongoConfig } from './lens';
 import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
-import { createDebug } from '../../../src/util/debug';
+import { getPreparedModels, loadModels } from './util';
 
 const debug = createDebug(MONGO);
 
 const handler = converge(
-  async config => {
+  async (config, models) => {
     const { connectionString } = config;
 
     debug('connecting to %s', connectionString);
 
-    // eslint-disable-next-line no-unused-vars
     const mongo = await mongoose.connect(
       connectionString,
       MONGOOSE_CONNECT_OPTIONS,
     );
 
+    loadModels(mongo, models);
+
     debug('connected');
 
     return mongo;
   },
-  [getMongoConfig],
+  [getMongoConfig, getPreparedModels],
 );
 
 const Mongo = {
   id: MONGO,
   handler,
 };
+
+export AbstractModel from './AbstractModel';
 
 export default Mongo;

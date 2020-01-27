@@ -1,6 +1,5 @@
 import * as _ from 'lodash/fp';
 import { Model } from 'mongoose';
-import { assignOnce } from '../../../src/util';
 
 class AbstractModel extends Model {
   /**
@@ -51,7 +50,5 @@ class AbstractModel extends Model {
     return models;
   }
 }
-
-export const withSchema = assignOnce('schema');
 
 export default AbstractModel;
