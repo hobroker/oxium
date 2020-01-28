@@ -4,7 +4,6 @@ import {
   compose,
   curry,
   identity,
-  ifElse,
   not,
   propEq,
   reduce,
@@ -31,12 +30,13 @@ export const ensurePromise = when(compose(not, isPromise), toPromise);
 export const noop = () => {};
 
 export const isEither = allPass([isNotUndefined, Either.isOfType]);
+export const isNotEither = compose(not, isEither);
 
 export const isRight = allPass([isEither, propEq('isRightValue', true)]);
-
 export const isLeft = allPass([isEither, propEq('isRightValue', false)]);
 
-export const ensureEitherOrRight = ifElse(isEither, identity, Right);
+export const ensureEitherOr = when(isNotEither);
+export const ensureEitherOrRight = ensureEitherOr(Right);
 
 export const wait = ms => new Promise(r => setTimeout(applyTo(ms, r), ms));
 

@@ -10,7 +10,7 @@ import {
   prop,
 } from 'ramda';
 import { isFunction, isObject, isString, stubObj } from 'ramda-adjunct';
-import { reduceObjIndexed } from './index';
+import { reduceObjIndexed } from '.';
 
 const findTransformer = recursiveFn => value => {
   const computePairs = [

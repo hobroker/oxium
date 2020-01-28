@@ -2,10 +2,10 @@ import {
   always,
   compose,
   converge,
+  curry,
   identity,
   lensProp,
   map,
-  nthArg,
   set,
   useWith,
   view,
@@ -22,23 +22,22 @@ export const featureByIdLens = converge(compose, [
 ]);
 
 export const featureByIdIsLoadedLens = converge(compose, [
-  always(featuresLens),
-  compose(byIdLens, identity),
+  featureByIdLens,
   always(metaIsLoadedLens),
 ]);
 
 export const getFeatures = view(featuresLens);
 export const setFeatures = set(featuresLens);
 
-export const replaceFeaturesIn = converge(map, [
-  compose(findFeatureReplacement, nthArg(1)),
-  identity,
-]);
+export const replaceFeaturesIn = curry((app, features) =>
+  map(findFeatureReplacement(features), getFeatures(app)),
+);
 
-export const replaceFeatures = converge(setFeatures, [
-  useWith(replaceFeaturesIn, [getFeatures, identity]),
-  identity,
-]);
+export const replaceFeatures = curry((app, features) => {
+  const newFeatures = replaceFeaturesIn(app, features);
+
+  return setFeatures(newFeatures, app);
+});
 
 export const resetMetaToFeature = useWith(setFeatures, [
   map(setDefaultMeta),

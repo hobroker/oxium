@@ -1,5 +1,5 @@
 import { call, compose, curryN, map, reduce, splitEvery } from 'ramda';
-import { promiseAll } from './index';
+import { promiseAll } from '.';
 
 export const resolveInChunks = curryN(
   2,

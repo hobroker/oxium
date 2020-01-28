@@ -1,17 +1,16 @@
 import { AbstractModel } from '../../mongo';
-import { setSchema } from '../../mongo/lens';
 
-class Demo extends AbstractModel {}
+class Demo extends AbstractModel {
+  schema = {
+    name: {
+      type: String,
+      required: true,
+    },
+    age: {
+      type: Number,
+      required: false,
+    },
+  };
+}
 
-const schema = {
-  name: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: Number,
-    required: false,
-  },
-};
-
-export default setSchema(schema, Demo);
+export default Demo;

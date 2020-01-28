@@ -1,8 +1,10 @@
 import debug from 'debug';
-import { compose, unapply } from 'ramda';
+import { apply, compose, unapply } from 'ramda';
 
-export const debugIt = debug('app');
+const baseDebug = debug('app');
 
-export const createDebug = ::debugIt.extend;
+export const debugIt = baseDebug;
 
-export const debugItFp = compose(unapply, createDebug)('fp');
+export const createDebug = compose(unapply, apply, ::debugIt.extend);
+
+export const debugItFp = createDebug('fp');

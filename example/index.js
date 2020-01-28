@@ -1,7 +1,7 @@
-import { compose, filter, map, take } from 'ramda';
+import { compose, converge, filter, map, take } from 'ramda';
 import { getFeatures, resetMetaToFeature } from '../src/lens/app';
 import { areAllFeaturesLoaded } from '../src/lens/features';
-import { getMeta, isFeatureUnloaded } from '../src/lens/feature';
+import { getMeta, getWeave, isFeatureUnloaded } from '../src/lens/feature';
 import { debugIt, debugItFp } from '../src/util/debug';
 import createAppRunner from '../src';
 import config from './config';
@@ -17,5 +17,5 @@ const isDoneFn = compose(areAllFeaturesLoaded, getFeatures);
 const run = createAppRunner(filterFn, isDoneFn);
 
 run(app)
-  .then(compose(map(compose(debugItFp, getMeta)), getFeatures))
+  .then(compose(map(converge(debugItFp, [getMeta, getWeave])), getFeatures))
   .catch(debugIt);

@@ -1,6 +1,6 @@
 import { debugItTime } from '../benchmark';
 import { resolveInChunks } from '../resolveInChunks';
-import { wait } from '../index';
+import { wait } from '..';
 
 describe('resolveInChunks', () => {
   it('should resolve in chunks of 2 in 700-715ms', async () => {

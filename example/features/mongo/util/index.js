@@ -1,36 +1,25 @@
-import {
-  applySpec,
-  compose,
-  curry,
-  defaultTo,
-  flatten,
-  forEach,
-  identity,
-  map,
-  prop,
-} from 'ramda';
+import { compose, curry, defaultTo, flatten, map } from 'ramda';
 import { Schema } from 'mongoose';
 import { getFeatures } from '../../../../src/lens/app';
 import { MONGOOSE_SCHEMA_OPTIONS } from '../constants';
 import { getSchema, getSharedModels } from '../lens';
+import { debugMongo } from '..';
 
-const createSchema = (value, options = MONGOOSE_SCHEMA_OPTIONS) =>
-  new Schema(value, options);
+const createSchema = value => new Schema(value, MONGOOSE_SCHEMA_OPTIONS);
 
-const getModelMeta = applySpec({
-  Model: identity,
-  name: prop('name'),
-  schema: compose(createSchema, getSchema),
-});
+const createSchemaFromModel = compose(createSchema, getSchema);
 
-export const getPreparedModels = compose(
+export const collectModels = compose(
   flatten,
-  map(compose(map(getModelMeta), defaultTo([]), getSharedModels)),
+  map(compose(defaultTo([]), getSharedModels)),
   getFeatures,
 );
 
 export const loadModels = curry((mongo, models) =>
-  forEach(({ Model, schema, name }) => {
-    mongo.model(Model, schema, name);
+  map(Model => {
+    const schema = createSchemaFromModel(Model);
+    debugMongo('load model', Model.name);
+
+    return mongo.model(Model, schema);
   }, models),
 );

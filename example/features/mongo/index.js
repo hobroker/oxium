@@ -1,11 +1,21 @@
 import mongoose from 'mongoose';
-import { converge } from 'ramda';
+import { compose, converge } from 'ramda';
+import { weave } from 'ramda-adjunct';
+import { Reader } from 'monet';
 import { createDebug } from '../../../src/util/debug';
 import { getMongoConfig } from './lens';
 import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
-import { getPreparedModels, loadModels } from './util';
+import { collectModels, loadModels } from './util';
+import { setDefaultWeave, setHandlerResult } from '../../../src/lens/feature';
 
 const debug = createDebug(MONGO);
+
+const createMongoWeave = mongo => {
+  const mongoReader = fn => Reader(mongoInstance => fn(mongoInstance));
+  const wMongo = weave(mongoReader, mongo);
+
+  return wMongo;
+};
 
 const handler = converge(
   async (config, models) => {
@@ -18,13 +28,17 @@ const handler = converge(
       MONGOOSE_CONNECT_OPTIONS,
     );
 
-    loadModels(mongo, models);
-
     debug('connected');
 
-    return mongo;
+    const loadedModels = loadModels(mongo, models);
+
+    debug('loaded models');
+
+    const wMongo = createMongoWeave(loadedModels);
+
+    return compose(setDefaultWeave(wMongo), setHandlerResult(mongo));
   },
-  [getMongoConfig, getPreparedModels],
+  [getMongoConfig, collectModels],
 );
 
 const Mongo = {
@@ -33,5 +47,7 @@ const Mongo = {
 };
 
 export AbstractModel from './AbstractModel';
+
+export { debug as debugMongo };
 
 export default Mongo;
