@@ -1,19 +1,16 @@
 import {
-  allPass,
   applyTo,
   compose,
   curry,
   identity,
   not,
-  propEq,
   reduce,
   then,
   toPairs,
   useWith,
   when,
 } from 'ramda';
-import { isNotUndefined, isPromise } from 'ramda-adjunct';
-import { Either, Right } from 'monet';
+import { isPromise } from 'ramda-adjunct';
 
 export const assign = curry((key, value, target) => {
   target[key] = value;
@@ -28,15 +25,6 @@ export const toPromise = value => Promise.resolve(value);
 export const ensurePromise = when(compose(not, isPromise), toPromise);
 
 export const noop = () => {};
-
-export const isEither = allPass([isNotUndefined, Either.isOfType]);
-export const isNotEither = compose(not, isEither);
-
-export const isRight = allPass([isEither, propEq('isRightValue', true)]);
-export const isLeft = allPass([isEither, propEq('isRightValue', false)]);
-
-export const ensureEitherOr = when(isNotEither);
-export const ensureEitherOrRight = ensureEitherOr(Right);
 
 export const wait = ms => new Promise(r => setTimeout(applyTo(ms, r), ms));
 

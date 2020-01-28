@@ -1,7 +1,7 @@
 import { compose, curry, map, not, then, when } from 'ramda';
 import { getFeatures, replaceFeatures } from './lens/app';
 import { promiseAll } from './util';
-import resolveFeatureWith from './util/resolveFeatureWith';
+import applyFeatureTo from './util/applyFeatureTo';
 
 const createAppRunner = curry((filterFn, isDoneFn, app) => {
   const runAgainOrReturn = when(
@@ -12,7 +12,7 @@ const createAppRunner = curry((filterFn, isDoneFn, app) => {
   return compose(
     then(compose(runAgainOrReturn, replaceFeatures(app))),
     promiseAll,
-    map(resolveFeatureWith(app)),
+    map(applyFeatureTo(app)),
     filterFn,
     getFeatures,
   )(app);

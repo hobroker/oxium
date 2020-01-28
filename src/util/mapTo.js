@@ -3,30 +3,24 @@ import {
   applyTo,
   assoc,
   compose,
+  cond,
   converge,
   curry,
   identity,
   nthArg,
   prop,
+  T,
 } from 'ramda';
 import { isFunction, isObject, isString, stubObj } from 'ramda-adjunct';
 import { reduceObjIndexed } from '.';
 
-const findTransformer = recursiveFn => value => {
-  const computePairs = [
+const findTransformer = recursiveFn =>
+  cond([
     [isFunction, identity],
     [isObject, recursiveFn],
     [isString, prop],
-  ];
-
-  for (const [validator, fn] of computePairs) {
-    if (validator(value)) {
-      return fn(value);
-    }
-  }
-
-  return always(value);
-};
+    [T, always],
+  ]);
 
 const mapTo = curry((spec, object) =>
   reduceObjIndexed(

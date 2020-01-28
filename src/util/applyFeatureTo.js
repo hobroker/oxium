@@ -13,7 +13,8 @@ import {
 } from 'ramda';
 import { cata, ensureArray, isFunction } from 'ramda-adjunct';
 import { getHandler, setFeatureIsLoaded } from '../lens/feature';
-import { ensureEitherOrRight, ensurePromise } from '.';
+import { ensureEitherOrRight } from './either';
+import { ensurePromise } from '.';
 
 const formatAppArgument = identity;
 
@@ -29,7 +30,7 @@ const resolveHandler = curryN(
   compose(then(ensureEitherOrRight), ensurePromise, applyTo),
 );
 
-const resolveFeature = useWith(apply, [
+const callFeatureWith = useWith(apply, [
   compose(resolveHandler, formatAppArgument),
   compose(ensureArray, getHandler),
 ]);
@@ -39,10 +40,10 @@ const foldHandlerResult = useWith(apply, [
   ensureArray,
 ]);
 
-const resolveFeatureWith = curry((app, feature) =>
-  resolveFeature(app, feature)
+const applyFeatureTo = curry((app, feature) =>
+  callFeatureWith(app, feature)
     .then(foldHandlerResult)
     .then(applyTo(feature)),
 );
 
-export default resolveFeatureWith;
+export default applyFeatureTo;
