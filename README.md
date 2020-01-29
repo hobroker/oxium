@@ -1,15 +1,15 @@
-# Oxyra
-![GitHub package.json version](https://img.shields.io/github/package-json/v/hobroker/oxyra?style=flat-square)
-[![License](https://img.shields.io/github/license/hobroker/oxyra)](LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/hobroker/oxyra)](https://github.com/hobroker/oxyra/projects/1)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/hobroker/oxyra.svg)](http://isitmaintained.com/project/hobroker/oxyra "Average time to resolve an issue")
-![GitHub top language](https://img.shields.io/github/languages/top/hobroker/oxyra)
+# Oxium
+![GitHub package.json version](https://img.shields.io/github/package-json/v/hobroker/oxium?style=flat-square)
+[![License](https://img.shields.io/github/license/hobroker/oxium)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/hobroker/oxium)](https://github.com/hobroker/oxium/projects/1)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/hobroker/oxium.svg)](http://isitmaintained.com/project/hobroker/oxium "Average time to resolve an issue")
+![GitHub top language](https://img.shields.io/github/languages/top/hobroker/oxium)
 
 ---
 
 ## ⚙️ Installation
 ```bash
-npm install hobroker/oxyra
+npm install hobroker/oxium
 ```
 
 ## 💬 Contributing

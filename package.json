@@ -1,0 +1,85 @@
+{
+  "name": "oxium",
+  "version": "0.1.0",
+  "description": "Modularized framework",
+  "author": "Igor Leahu <igor.leahu@gmail.com>",
+  "repository": "github:hobroker/oxium",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "babel src -d dist --copy-files",
+    "build:watch": "npm run build -- --watch",
+    "rebuild": "rm -rf dist && npm run build",
+    "example": "DEBUG=app* node -r @babel/register example/index.js",
+    "test": "NODE_ENV=test jest",
+    "test:coverage": "npm test -- --coverage",
+    "lint": "eslint src example --ext .js --max-warnings 0 --fix"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "eventemitter2": "^6.0.0",
+    "http-status-codes": "^1.4.0",
+    "lodash": "^4.17.15",
+    "monet": "^0.9.1",
+    "mongoose": "^5.8.10",
+    "ramda": "^0.26.1",
+    "ramda-adjunct": "^2.24.0",
+    "rxjs": "^6.5.4",
+    "winston": "^3.2.1",
+    "yargs": "^15.1.0",
+    "yup": "^0.28.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/plugin-proposal-function-bind": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-proposal-throw-expressions": "^7.8.3",
+    "@babel/plugin-syntax-decorators": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-inline-import": "^3.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.4",
+    "nodemon": "^2.0.2",
+    "prettier": "1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build && git add dist"
+    }
+  },
+  "lint-staged": {
+    "{src,example}/**/*.{js,json}": [
+      "eslint --max-warnings 0 --fix",
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "modulePathIgnorePatterns": [
+      "/dist"
+    ],
+    "testEnvironment": "node"
+  }
+}
