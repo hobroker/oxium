@@ -5,8 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   mapTo: true,
-  applyFeatureTo: true,
-  resolveInChunks: true
+  applyFeatureTo: true
 };
 Object.defineProperty(exports, "mapTo", {
   enumerable: true,
@@ -18,12 +17,6 @@ Object.defineProperty(exports, "applyFeatureTo", {
   enumerable: true,
   get: function () {
     return _applyFeatureTo.default;
-  }
-});
-Object.defineProperty(exports, "resolveInChunks", {
-  enumerable: true,
-  get: function () {
-    return _resolveInChunks.default;
   }
 });
 
@@ -134,7 +127,5 @@ Object.keys(_reader).forEach(function (key) {
 var _mapTo = _interopRequireDefault(require("./mapTo"));
 
 var _applyFeatureTo = _interopRequireDefault(require("./applyFeatureTo"));
-
-var _resolveInChunks = _interopRequireDefault(require("./resolveInChunks"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

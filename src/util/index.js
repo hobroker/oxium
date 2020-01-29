@@ -8,4 +8,3 @@ export * from './promise';
 export * from './reader';
 export { default as mapTo } from './mapTo';
 export { default as applyFeatureTo } from './applyFeatureTo';
-export { default as resolveInChunks } from './resolveInChunks';

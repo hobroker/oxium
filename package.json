@@ -16,6 +16,7 @@
   "scripts": {
     "build": "babel src -d dist --copy-files",
     "build:watch": "npm run build -- --watch",
+    "rebuild": "rm -rf dist && npm run build",
     "example": "DEBUG=app* node -r @babel/register example/index.js",
     "test": "NODE_ENV=test jest",
     "test:coverage": "npm test -- --coverage",
@@ -80,7 +81,7 @@
       "/node_modules/"
     ],
     "modulePathIgnorePatterns": [
-      "/build"
+      "/dist"
     ],
     "testEnvironment": "node"
   }
