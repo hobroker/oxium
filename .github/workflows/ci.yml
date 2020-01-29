@@ -23,11 +23,15 @@ jobs:
       - name: Install packages
         run: |
           npm ci
-          npm install -g codecov
       - name: Run Tests and publish code coverage
         run: |
           npm run test:coverage
-          codecov -t ${{ secrets.CODECOV_TOKEN }}
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          yml: ./codecov.yml
+          fail_ci_if_error: true
       - name: Run Build
         run: npm run build
       - name: Upload Build
