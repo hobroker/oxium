@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: |
-          NODE_ENV= npm ci
+          npm ci
           npm install -g codecov
       - name: Run Tests and publish code coverage
         run: |
