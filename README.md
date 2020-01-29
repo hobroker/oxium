@@ -22,4 +22,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 
 ---
 
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg)](https://www.buymeacoffee.com/hobroker)
+[![Buy Me A Coffee][buymeacoffee-image]][buymeacoffee-link]
+
+
+[buymeacoffee-link]: https://www.buymeacoffee.com/hobroker
+[buymeacoffee-image]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
