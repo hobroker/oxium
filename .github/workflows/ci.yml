@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  ci:
     strategy:
       matrix:
         node-version: [12]
@@ -19,15 +19,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: npm ci
-      - name: Run Tests w/ coverage
+      - name: Run Tests with coverage
         run: npm run test:coverage
-      - name: Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1.0.5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           yml: ./codecov.yml
           fail_ci_if_error: true
-      - name: Run Build
+      - name: Build
         run: npm run build
       - name: Upload Build
         uses: actions/upload-artifact@v1
