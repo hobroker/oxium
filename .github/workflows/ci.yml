@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12]
-        platform: [ubuntu-latest]
+        platform: [ubuntu-latest, mac-latest]
 
     runs-on: ${{ matrix.platform }}
 
@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-node@v1.2.0
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: https://npm.pkg.github.com/
       - name: Install packages
         run: |
           NODE_ENV= npm ci
@@ -31,14 +30,8 @@ jobs:
           codecov -t ${{ secrets.CODECOV_TOKEN }}
       - name: Run Build
         run: npm run build
-      - name: Publish package
-        run: |
-          bash scripts/release.sh
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:
-          name: build
-          path: build
+          name: dist
+          path: dist
