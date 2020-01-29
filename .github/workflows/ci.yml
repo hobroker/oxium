@@ -21,11 +21,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
-        run: |
-          npm ci
-      - name: Run Tests and publish code coverage
-        run: |
-          npm run test:coverage
+        run: npm ci
+      - name: Run Tests w/ coverage
+        run: npm run test:coverage
       - name: Codecov
         uses: codecov/codecov-action@v1.0.5
         with:
