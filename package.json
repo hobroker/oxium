@@ -32,7 +32,6 @@
     "ramda": "^0.26.1",
     "ramda-adjunct": "^2.24.0",
     "rxjs": "^6.5.4",
-    "signale": "^1.4.0",
     "winston": "^3.2.1",
     "yargs": "^15.1.0",
     "yup": "^0.28.0"
@@ -66,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build"
+      "pre-commit": "lint-staged && npm run build && git add dist"
     }
   },
   "lint-staged": {
