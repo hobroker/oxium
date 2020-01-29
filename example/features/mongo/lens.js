@@ -15,7 +15,7 @@ import {
   featureByIdLens,
 } from '../../../src/lens/app';
 import { configFeaturesLens } from '../../../src/lens/config';
-import { sharedLens } from '../../../src/lens/feature';
+import { defaultWeaveLens, sharedLens } from '../../../src/lens/feature';
 import { MONGO } from './constants';
 
 export const modelsLens = lens(
@@ -27,6 +27,7 @@ export const configFeaturesMongoLens = compose(configFeaturesLens, mongoLens);
 export const featuresMongoLens = featureByIdLens(MONGO);
 export const isMongoLoadedLens = featureByIdIsLoadedLens(MONGO);
 export const metaModelsLens = compose(sharedLens, modelsLens);
+export const defaultMongoLens = compose(featuresMongoLens, defaultWeaveLens);
 
 export const getMongoConfig = view(configFeaturesMongoLens);
 
@@ -36,5 +37,7 @@ export const isMongoLoaded = view(isMongoLoadedLens);
 
 export const shareMongoModels = set(metaModelsLens);
 export const getSharedModels = view(metaModelsLens);
+
+export const getDefaultMongoWeave = view(defaultMongoLens);
 
 export const getSchema = prop('schema');

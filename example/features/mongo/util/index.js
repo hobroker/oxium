@@ -1,4 +1,4 @@
-import { compose, curry, defaultTo, flatten, map } from 'ramda';
+import { compose, curry, defaultTo, flatten, indexBy, map, prop } from 'ramda';
 import { Schema } from 'mongoose';
 import { getFeatures } from '../../../../src/lens/app';
 import { MONGOOSE_SCHEMA_OPTIONS } from '../constants';
@@ -16,10 +16,13 @@ export const collectModels = compose(
 );
 
 export const loadModels = curry((mongo, models) =>
-  map(Model => {
-    const schema = createSchemaFromModel(Model);
-    debugMongo('load model', Model.name);
+  compose(
+    indexBy(prop('name')),
+    map(Model => {
+      const schema = createSchemaFromModel(Model);
+      debugMongo('load model', Model.name);
 
-    return mongo.model(Model, schema);
-  }, models),
+      return mongo.model(Model, schema);
+    }),
+  )(models),
 );

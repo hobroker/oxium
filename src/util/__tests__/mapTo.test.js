@@ -1,4 +1,4 @@
-import mapTo from '../mapTo';
+import { mapTo } from '..';
 
 describe('mapTo', () => {
   it('should modify the object according to the map provided', () => {

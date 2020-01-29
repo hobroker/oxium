@@ -22,6 +22,7 @@ export const updateHandler = over(handlerLens);
 
 export const getWeave = view(weaveLens);
 export const setDefaultWeave = set(defaultWeaveLens);
+export const getDefaultWeave = view(defaultWeaveLens);
 
 export const getMeta = view(metaLens);
 

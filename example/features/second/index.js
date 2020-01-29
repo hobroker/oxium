@@ -1,11 +1,14 @@
-import { debugIt } from '../../../src/util/debug';
+import { identity } from 'ramda';
+import { debugIt } from '../../../src/util';
 import { shareMongoModels } from '../mongo/lens';
 import * as models from './models';
 
 const SECOND = 'second';
 
-const handler = () => {
-  debugIt('SECOND start');
+const handler = app => {
+  debugIt('SECOND start', typeof app);
+
+  return identity;
 };
 
 const Second = shareMongoModels(models)({

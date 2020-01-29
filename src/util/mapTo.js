@@ -12,7 +12,7 @@ import {
   T,
 } from 'ramda';
 import { isFunction, isObject, isString, stubObj } from 'ramda-adjunct';
-import { reduceObjIndexed } from '.';
+import { reduceObjIndexed } from './object';
 
 const findTransformer = recursiveFn =>
   cond([

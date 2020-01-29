@@ -1,9 +1,9 @@
 import { compose, converge, filter, map, take } from 'ramda';
+import createAppRunner from '../src';
 import { getFeatures, resetMetaToFeature } from '../src/lens/app';
 import { areAllFeaturesLoaded } from '../src/lens/features';
 import { getMeta, getWeave, isFeatureUnloaded } from '../src/lens/feature';
-import { debugIt, debugItFp } from '../src/util/debug';
-import createAppRunner from '../src';
+import { debugIt, debugItFp } from '../src/util';
 import config from './config';
 import Demo from './features/demo';
 import Second from './features/second';

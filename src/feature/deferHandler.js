@@ -12,14 +12,17 @@ import {
 import { ensurePromise } from '../util';
 import { updateHandler } from '../lens/feature';
 
-const callHandler = handler => compose(ensurePromise, apply(handler));
-
 const handlerTransformation = curry((validator, originalHandler) => (...args) =>
   compose(
     then(
       ifElse(
         identity,
-        compose(then(Right), apply(callHandler(originalHandler)), always(args)),
+        compose(
+          then(Right),
+          ensurePromise,
+          apply(originalHandler),
+          always(args),
+        ),
         compose(Left, always(null)),
       ),
     ),

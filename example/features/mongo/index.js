@@ -1,24 +1,18 @@
 import mongoose from 'mongoose';
 import { compose, converge } from 'ramda';
 import { weave } from 'ramda-adjunct';
-import { Reader } from 'monet';
-import { createDebug } from '../../../src/util/debug';
+import { setDefaultWeave, setHandlerResult } from '../../../src/lens/feature';
+import { createDebug, callReader } from '../../../src/util';
 import { getMongoConfig } from './lens';
 import { MONGO, MONGOOSE_CONNECT_OPTIONS } from './constants';
 import { collectModels, loadModels } from './util';
-import { setDefaultWeave, setHandlerResult } from '../../../src/lens/feature';
+// import { getAllDemoDocs } from '../demo/actions';
 
 const debug = createDebug(MONGO);
 
-const createMongoWeave = mongo => {
-  const mongoReader = fn => Reader(mongoInstance => fn(mongoInstance));
-  const wMongo = weave(mongoReader, mongo);
-
-  return wMongo;
-};
-
 const handler = converge(
   async (config, models) => {
+    mongoose.Promise = Promise;
     const { connectionString } = config;
 
     debug('connecting to %s', connectionString);
@@ -34,7 +28,9 @@ const handler = converge(
 
     debug('loaded models');
 
-    const wMongo = createMongoWeave(loadedModels);
+    const wMongo = weave(callReader, loadedModels);
+
+    // console.log(await wMongo(getAllDemoDocs()));
 
     return compose(setDefaultWeave(wMongo), setHandlerResult(mongo));
   },

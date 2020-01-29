@@ -5,7 +5,6 @@ import {
   compose,
   converge,
   curry,
-  curryN,
   identity,
   ifElse,
   then,
@@ -14,26 +13,22 @@ import {
 import { cata, ensureArray, isFunction } from 'ramda-adjunct';
 import { getHandler, setFeatureIsLoaded } from '../lens/feature';
 import { ensureEitherOrRight } from './either';
-import { ensurePromise } from '.';
+import { ensurePromise } from './promise';
 
-const formatAppArgument = identity;
-
-export const rightResultMap = converge(compose, [
+const rightResultMap = converge(compose, [
   always(setFeatureIsLoaded(true)),
   ifElse(isFunction, identity, always(identity)),
 ]);
 
-export const leftResultMap = always(identity);
+const leftResultMap = always(identity);
 
-const resolveHandler = curryN(
-  2,
-  compose(then(ensureEitherOrRight), ensurePromise, applyTo),
+const resolveHandler = curry((app, handler) =>
+  compose(then(ensureEitherOrRight), ensurePromise, handler)(app),
 );
 
-const callFeatureWith = useWith(apply, [
-  compose(resolveHandler, formatAppArgument),
-  compose(ensureArray, getHandler),
-]);
+const callFeatureWith = curry((app, feature) =>
+  compose(resolveHandler(app), getHandler)(feature),
+);
 
 const foldHandlerResult = useWith(apply, [
   cata(leftResultMap, rightResultMap),

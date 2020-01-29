@@ -10,8 +10,8 @@ import {
   useWith,
   view,
 } from 'ramda';
-import { metaIsLoadedLens, setDefaultMeta } from './feature';
 import { findFeatureReplacement } from './features';
+import { metaIsLoadedLens, setDefaultMeta } from './feature';
 import { byIdLens } from '.';
 
 export const featuresLens = lensProp('features');
