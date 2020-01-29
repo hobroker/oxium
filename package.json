@@ -1,9 +1,9 @@
 {
-  "name": "oxyra",
+  "name": "oxium",
   "version": "0.1.0",
   "description": "Modularized framework",
   "author": "Igor Leahu <igor.leahu@gmail.com>",
-  "repository": "github:hobroker/oxyra",
+  "repository": "github:hobroker/oxium",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
