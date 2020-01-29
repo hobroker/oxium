@@ -1,18 +1,15 @@
 {
-  "name": "onis",
+  "name": "oxyra",
   "version": "0.1.0",
   "description": "Modularized framework",
   "author": "Igor Leahu <igor.leahu@gmail.com>",
-  "repository": "github:hobroker/onis",
+  "repository": "github:hobroker/oxyra",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "scripts": {
     "build": "babel src -d dist --copy-files",
     "build:watch": "npm run build -- --watch",
