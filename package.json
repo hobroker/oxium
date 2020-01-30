@@ -8,25 +8,20 @@
   "type": "module",
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "/dist"
   ],
   "scripts": {
     "build": "babel src -d dist --copy-files",
     "build:watch": "npm run build -- --watch",
     "rebuild": "rm -rf dist && npm run build",
-    "example": "DEBUG=app* node -r @babel/register example/index.js",
     "test": "NODE_ENV=test jest",
     "test:coverage": "npm test -- --coverage",
-    "lint": "eslint src example --ext .js --max-warnings 0 --fix"
+    "lint": "eslint src --ext .js --max-warnings 0 --fix"
   },
   "dependencies": {
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
-    "eventemitter2": "^6.0.0",
-    "http-status-codes": "^1.4.0",
-    "lodash": "^4.17.15",
     "monet": "^0.9.1",
-    "mongoose": "^5.8.10",
     "ramda": "^0.26.1",
     "ramda-adjunct": "^2.24.0",
     "rxjs": "^6.5.4",
@@ -67,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "{src,example}/**/*.{js,json}": [
+    "src/**/*.{js,json}": [
       "eslint --max-warnings 0 --fix",
       "prettier --write"
     ]

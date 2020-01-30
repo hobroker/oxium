@@ -1,8 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.ensureEitherOrRight = exports.ensureEitherOr = exports.isLeft = exports.isRight = exports.isNotEither = exports.isEither = void 0;
 
 var _ramda = require("ramda");

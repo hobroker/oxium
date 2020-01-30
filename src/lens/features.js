@@ -1,10 +1,14 @@
-import { all, curry, defaultTo, find } from 'ramda';
-import { featureIdEq, isFeatureLoaded } from './feature';
+import { all, compose, curry, defaultTo, find, propEq } from 'ramda';
+import { getId, isFeatureLoaded } from './feature';
 
-export const areAllFeaturesLoaded = all(isFeatureLoaded);
+const featureIdEq = compose(propEq('id'), getId);
 
-export const findFeatureReplacement = curry((newFeatures, feature) => {
+const areAllFeaturesLoaded = all(isFeatureLoaded);
+
+const findFeatureReplacement = curry((newFeatures, feature) => {
   const result = find(featureIdEq(feature), newFeatures);
 
   return defaultTo(feature, result);
 });
+
+export { areAllFeaturesLoaded, findFeatureReplacement };

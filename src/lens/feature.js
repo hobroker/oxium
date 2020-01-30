@@ -1,37 +1,61 @@
-import { compose, lensProp, not, over, propEq, set, view } from 'ramda';
+import { compose, lensProp, not, over, set, view } from 'ramda';
 
-export const idLens = lensProp('id');
-export const handlerLens = lensProp('handler');
-export const defaultLens = lensProp('default');
+const idLens = lensProp('id');
+const handlerLens = lensProp('handler');
+const defaultLens = lensProp('default');
 
-export const weaveLens = lensProp('weave');
-export const defaultWeaveLens = compose(weaveLens, defaultLens);
+const weaveLens = lensProp('weave');
+const defaultWeaveLens = compose(weaveLens, defaultLens);
 
-export const metaLens = lensProp('_');
-export const isLoadedLens = lensProp('isLoaded');
-export const resultLens = lensProp('result');
-export const metaIsLoadedLens = compose(metaLens, isLoadedLens);
-export const metaResultLens = compose(metaLens, resultLens);
+const metaLens = lensProp('_');
+const isLoadedLens = lensProp('isLoaded');
+const resultLens = lensProp('result');
+const metaIsLoadedLens = compose(metaLens, isLoadedLens);
+const metaResultLens = compose(metaLens, resultLens);
 
-export const sharedLens = lensProp('shared');
+const sharedLens = lensProp('shared');
 
-export const getId = view(idLens);
+const getId = view(idLens);
 
-export const getHandler = view(handlerLens);
-export const updateHandler = over(handlerLens);
+const getHandler = view(handlerLens);
+const updateHandler = over(handlerLens);
 
-export const getWeave = view(weaveLens);
-export const setDefaultWeave = set(defaultWeaveLens);
-export const getDefaultWeave = view(defaultWeaveLens);
+const getWeave = view(weaveLens);
+const setDefaultWeave = set(defaultWeaveLens);
+const getDefaultWeave = view(defaultWeaveLens);
 
-export const getMeta = view(metaLens);
+const getMeta = view(metaLens);
+const isFeatureLoaded = view(metaIsLoadedLens);
+const isFeatureUnloaded = compose(not, isFeatureLoaded);
+const setFeatureIsLoaded = set(metaIsLoadedLens);
+const setHandlerResult = set(metaResultLens);
+const setDefaultMeta = setFeatureIsLoaded(false);
 
-export const isFeatureLoaded = view(metaIsLoadedLens);
-export const isFeatureUnloaded = compose(not, isFeatureLoaded);
+export {
+  idLens,
+  handlerLens,
+  defaultLens,
+  weaveLens,
+  defaultWeaveLens,
+  metaLens,
+  isLoadedLens,
+  resultLens,
+  metaIsLoadedLens,
+  metaResultLens,
+  sharedLens,
+};
 
-export const setFeatureIsLoaded = set(metaIsLoadedLens);
-
-export const setHandlerResult = set(metaResultLens);
-export const setDefaultMeta = setFeatureIsLoaded(false);
-
-export const featureIdEq = compose(propEq('id'), getId);
+export {
+  getId,
+  getHandler,
+  updateHandler,
+  getWeave,
+  setDefaultWeave,
+  getDefaultWeave,
+  getMeta,
+  isFeatureLoaded,
+  isFeatureUnloaded,
+  setFeatureIsLoaded,
+  setHandlerResult,
+  setDefaultMeta,
+};

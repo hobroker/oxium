@@ -9,10 +9,18 @@ import {
   identity,
   nthArg,
   prop,
+  reduce,
   T,
+  toPairs,
 } from 'ramda';
 import { isFunction, isObject, isString, stubObj } from 'ramda-adjunct';
-import { reduceObjIndexed } from './object';
+
+const reduceObjIndexed = curry((fn, acc, obj) =>
+  compose(
+    reduce((result, [key, value]) => fn(result, value, key, obj), acc),
+    toPairs,
+  )(obj),
+);
 
 const findTransformer = recursiveFn =>
   cond([

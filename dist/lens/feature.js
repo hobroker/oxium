@@ -1,9 +1,7 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.featureIdEq = exports.setDefaultMeta = exports.setHandlerResult = exports.setFeatureIsLoaded = exports.isFeatureUnloaded = exports.isFeatureLoaded = exports.getMeta = exports.getDefaultWeave = exports.setDefaultWeave = exports.getWeave = exports.updateHandler = exports.getHandler = exports.getId = exports.sharedLens = exports.metaResultLens = exports.metaIsLoadedLens = exports.resultLens = exports.isLoadedLens = exports.metaLens = exports.defaultWeaveLens = exports.weaveLens = exports.defaultLens = exports.handlerLens = exports.idLens = void 0;
+exports.__esModule = true;
+exports.setDefaultMeta = exports.setHandlerResult = exports.setFeatureIsLoaded = exports.isFeatureUnloaded = exports.isFeatureLoaded = exports.getMeta = exports.getDefaultWeave = exports.setDefaultWeave = exports.getWeave = exports.updateHandler = exports.getHandler = exports.getId = exports.sharedLens = exports.metaResultLens = exports.metaIsLoadedLens = exports.resultLens = exports.isLoadedLens = exports.metaLens = exports.defaultWeaveLens = exports.weaveLens = exports.defaultLens = exports.handlerLens = exports.idLens = void 0;
 
 var _ramda = require("ramda");
 
@@ -53,5 +51,3 @@ const setHandlerResult = (0, _ramda.set)(metaResultLens);
 exports.setHandlerResult = setHandlerResult;
 const setDefaultMeta = setFeatureIsLoaded(false);
 exports.setDefaultMeta = setDefaultMeta;
-const featureIdEq = (0, _ramda.compose)((0, _ramda.propEq)('id'), getId);
-exports.featureIdEq = featureIdEq;

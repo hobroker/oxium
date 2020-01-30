@@ -13,7 +13,7 @@ import {
 import { cata, ensureArray, isFunction } from 'ramda-adjunct';
 import { getHandler, setFeatureIsLoaded } from '../lens/feature';
 import { ensureEitherOrRight } from './either';
-import { ensurePromise } from './promise';
+import { ensurePromise } from './async';
 
 const rightResultMap = converge(compose, [
   always(setFeatureIsLoaded(true)),

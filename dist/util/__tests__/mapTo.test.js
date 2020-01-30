@@ -1,6 +1,8 @@
 "use strict";
 
-var _ = require("..");
+var _mapTo = _interopRequireDefault(require("../mapTo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('mapTo', () => {
   it('should modify the object according to the map provided', () => {
@@ -10,7 +12,7 @@ describe('mapTo', () => {
     const obj = {
       PORT: 3000
     };
-    expect((0, _.mapTo)(map, obj)).toEqual({
+    expect((0, _mapTo.default)(map, obj)).toEqual({
       port: 3000
     });
   });
@@ -23,7 +25,7 @@ describe('mapTo', () => {
     const obj = {
       PORT: 3000
     };
-    expect((0, _.mapTo)(map, obj)).toEqual({
+    expect((0, _mapTo.default)(map, obj)).toEqual({
       nested: {
         port: 3000
       }
@@ -38,7 +40,7 @@ describe('mapTo', () => {
     const obj = {
       PORT: 3000
     };
-    expect((0, _.mapTo)(map, obj)).toEqual({
+    expect((0, _mapTo.default)(map, obj)).toEqual({
       nested: {
         port: 3001
       }

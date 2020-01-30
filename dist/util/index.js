@@ -1,49 +1,18 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 var _exportNames = {
   mapTo: true,
   applyFeatureTo: true
 };
-Object.defineProperty(exports, "mapTo", {
-  enumerable: true,
-  get: function () {
-    return _mapTo.default;
-  }
-});
-Object.defineProperty(exports, "applyFeatureTo", {
-  enumerable: true,
-  get: function () {
-    return _applyFeatureTo.default;
-  }
-});
-
-var _async = require("./async");
-
-Object.keys(_async).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _async[key];
-    }
-  });
-});
+exports.applyFeatureTo = exports.mapTo = void 0;
 
 var _benchmark = require("./benchmark");
 
 Object.keys(_benchmark).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _benchmark[key];
-    }
-  });
+  exports[key] = _benchmark[key];
 });
 
 var _debug = require("./debug");
@@ -51,12 +20,7 @@ var _debug = require("./debug");
 Object.keys(_debug).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _debug[key];
-    }
-  });
+  exports[key] = _debug[key];
 });
 
 var _either = require("./either");
@@ -64,12 +28,7 @@ var _either = require("./either");
 Object.keys(_either).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _either[key];
-    }
-  });
+  exports[key] = _either[key];
 });
 
 var _noop = require("./noop");
@@ -77,38 +36,15 @@ var _noop = require("./noop");
 Object.keys(_noop).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _noop[key];
-    }
-  });
+  exports[key] = _noop[key];
 });
 
-var _object = require("./object");
+var _async = require("./async");
 
-Object.keys(_object).forEach(function (key) {
+Object.keys(_async).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _object[key];
-    }
-  });
-});
-
-var _promise = require("./promise");
-
-Object.keys(_promise).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _promise[key];
-    }
-  });
+  exports[key] = _async[key];
 });
 
 var _reader = require("./reader");
@@ -116,16 +52,15 @@ var _reader = require("./reader");
 Object.keys(_reader).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _reader[key];
-    }
-  });
+  exports[key] = _reader[key];
 });
 
 var _mapTo = _interopRequireDefault(require("./mapTo"));
 
+exports.mapTo = _mapTo.default;
+
 var _applyFeatureTo = _interopRequireDefault(require("./applyFeatureTo"));
+
+exports.applyFeatureTo = _applyFeatureTo.default;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

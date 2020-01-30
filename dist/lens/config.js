@@ -1,8 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.configFeaturesLens = exports.featuresLens = exports.configLens = void 0;
 
 var _ramda = require("ramda");

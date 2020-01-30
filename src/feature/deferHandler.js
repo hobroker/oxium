@@ -1,4 +1,4 @@
-import { Left, Right } from 'monet';
+import { Left } from 'monet';
 import {
   always,
   apply,
@@ -9,8 +9,9 @@ import {
   then,
   useWith,
 } from 'ramda';
-import { ensurePromise } from '../util';
 import { updateHandler } from '../lens/feature';
+import { ensurePromise } from '../util/async';
+import { ensureEitherOrRight } from '../util/either';
 
 const handlerTransformation = curry((validator, originalHandler) => (...args) =>
   compose(
@@ -18,7 +19,7 @@ const handlerTransformation = curry((validator, originalHandler) => (...args) =>
       ifElse(
         identity,
         compose(
-          then(Right),
+          then(ensureEitherOrRight),
           ensurePromise,
           apply(originalHandler),
           always(args),

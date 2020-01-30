@@ -1,8 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.resetMetaToFeature = exports.replaceFeatures = exports.replaceFeaturesIn = exports.setFeatures = exports.getFeatures = exports.featureByIdIsLoadedLens = exports.featureByIdLens = exports.featuresLens = void 0;
 
 var _ramda = require("ramda");

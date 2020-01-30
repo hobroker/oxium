@@ -1,15 +1,9 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "deferHandler", {
-  enumerable: true,
-  get: function () {
-    return _deferHandler2.default;
-  }
-});
+exports.__esModule = true;
 
 var _deferHandler2 = _interopRequireDefault(require("./deferHandler"));
+
+exports.deferHandler = _deferHandler2.default;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
