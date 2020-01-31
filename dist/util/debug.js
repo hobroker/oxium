@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.debugItFp = exports.createDebug = exports.debugIt = void 0;
+exports.debugItFp = exports.debugIt = exports.createDebug = void 0;
 
 var _debug = _interopRequireDefault(require("debug"));
 

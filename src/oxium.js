@@ -1,7 +1,8 @@
 import { compose, curry, map, not, then, when } from 'ramda';
-import { getFeatures, replaceFeatures } from './lens/app';
+import { getFeatures } from './lens/app';
 import { promiseAll } from './util/async';
 import applyFeatureTo from './util/applyFeatureTo';
+import replaceFeatures from './util/replaceFeatures';
 
 const createAppRunner = curry((filterFn, isDoneFn, app) => {
   const runAgainOrReturn = when(
