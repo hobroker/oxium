@@ -9,10 +9,10 @@ const findFeatureReplacement = curry((newFeatures, feature) =>
   compose(defaultTo(feature), find(featureIdEq(feature)))(newFeatures),
 );
 
-const replaceFeatures = curry((app, features) => {
+const replaceFeaturesIn = curry((app, features) => {
   const newFeatures = map(findFeatureReplacement(features), getFeatures(app));
 
   return setFeatures(newFeatures, app);
 });
 
-export default replaceFeatures;
+export default replaceFeaturesIn;
