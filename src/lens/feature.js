@@ -1,10 +1,11 @@
 import { compose, lensProp, over, set, view } from 'ramda';
+import { HANDLER, ID, IS_LOADED, META } from '../constants';
 
-const idLens = lensProp('id');
-const handlerLens = lensProp('handler');
+const idLens = lensProp(ID);
+const handlerLens = lensProp(HANDLER);
 
-const metaLens = lensProp('_');
-const isLoadedLens = lensProp('isLoaded');
+const metaLens = lensProp(META);
+const isLoadedLens = lensProp(IS_LOADED);
 const metaIsLoadedLens = compose(metaLens, isLoadedLens);
 
 const getId = view(idLens);
@@ -12,15 +13,8 @@ const getId = view(idLens);
 const getHandler = view(handlerLens);
 const updateHandler = over(handlerLens);
 
-const isFeatureLoaded = view(metaIsLoadedLens);
 const setFeatureIsLoaded = set(metaIsLoadedLens);
 
 export { idLens, handlerLens, metaLens, isLoadedLens, metaIsLoadedLens };
 
-export {
-  getId,
-  getHandler,
-  updateHandler,
-  isFeatureLoaded,
-  setFeatureIsLoaded,
-};
+export { getId, getHandler, updateHandler, setFeatureIsLoaded };

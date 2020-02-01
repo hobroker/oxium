@@ -1,3 +1,3 @@
-export deferHandler from './feature/deferHandler';
+export deferHandler from './decorators/deferHandler';
 
 export default from './oxium';

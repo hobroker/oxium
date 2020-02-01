@@ -13,11 +13,10 @@ var _either = require("./either");
 
 var _async = require("./async");
 
-const rightResultMap = (0, _ramda.converge)(_ramda.compose, [(0, _ramda.always)((0, _feature.setFeatureIsLoaded)(true)), (0, _ramda.ifElse)(_ramdaAdjunct.isFunction, _ramda.identity, (0, _ramda.always)(_ramda.identity))]);
-const leftResultMap = (0, _ramda.always)(_ramda.identity);
+const mapRightResult = (0, _ramda.converge)(_ramda.compose, [(0, _ramda.always)((0, _feature.setFeatureIsLoaded)(true)), (0, _ramda.ifElse)(_ramdaAdjunct.isFunction, _ramda.identity, (0, _ramda.always)(_ramda.identity))]);
+const mapLeftResult = (0, _ramda.always)(_ramda.identity);
 const resolveHandler = (0, _ramda.curry)((app, handler) => (0, _ramda.compose)((0, _ramda.then)(_either.ensureEitherOrRight), _async.ensurePromise, handler)(app));
 const callFeatureWith = (0, _ramda.curry)((app, feature) => (0, _ramda.compose)(resolveHandler(app), _feature.getHandler)(feature));
-const foldHandlerResult = (0, _ramda.useWith)(_ramda.apply, [(0, _ramdaAdjunct.cata)(leftResultMap, rightResultMap), _ramdaAdjunct.ensureArray]);
-const applyFeatureTo = (0, _ramda.curry)((app, feature) => callFeatureWith(app, feature).then(foldHandlerResult).then((0, _ramda.applyTo)(feature)));
+const applyFeatureTo = (0, _ramda.curry)((app, feature) => (0, _ramda.compose)((0, _ramda.then)((0, _ramda.applyTo)(feature)), (0, _ramda.then)((0, _ramdaAdjunct.cata)(mapLeftResult, mapRightResult)), callFeatureWith)(app, feature));
 var _default = applyFeatureTo;
 exports.default = _default;

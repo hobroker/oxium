@@ -5,7 +5,9 @@ exports.setFeatures = exports.getFeatures = exports.featuresLens = void 0;
 
 var _ramda = require("ramda");
 
-const featuresLens = (0, _ramda.lensProp)('features');
+var _constants = require("../constants");
+
+const featuresLens = (0, _ramda.lensProp)(_constants.FEATURES);
 exports.featuresLens = featuresLens;
 const getFeatures = (0, _ramda.view)(featuresLens);
 exports.getFeatures = getFeatures;

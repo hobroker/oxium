@@ -9,11 +9,10 @@ var _app = require("../lens/app");
 
 var _feature = require("../lens/feature");
 
-const featureIdEq = (0, _ramda.compose)((0, _ramda.propEq)('id'), _feature.getId);
-const findFeatureReplacement = (0, _ramda.curry)((newFeatures, feature) => {
-  const result = (0, _ramda.find)(featureIdEq(feature), newFeatures);
-  return (0, _ramda.defaultTo)(feature, result);
-});
+var _constants = require("../constants");
+
+const featureIdEq = (0, _ramda.compose)((0, _ramda.propEq)(_constants.ID), _feature.getId);
+const findFeatureReplacement = (0, _ramda.curry)((newFeatures, feature) => (0, _ramda.compose)((0, _ramda.defaultTo)(feature), (0, _ramda.find)(featureIdEq(feature)))(newFeatures));
 const replaceFeatures = (0, _ramda.curry)((app, features) => {
   const newFeatures = (0, _ramda.map)(findFeatureReplacement(features), (0, _app.getFeatures)(app));
   return (0, _app.setFeatures)(newFeatures, app);

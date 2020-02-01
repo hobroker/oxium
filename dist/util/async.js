@@ -14,5 +14,5 @@ exports.promiseAll = promiseAll;
 const toPromise = value => Promise.resolve(value);
 
 exports.toPromise = toPromise;
-const ensurePromise = (0, _ramda.when)((0, _ramda.compose)(_ramda.not, _ramdaAdjunct.isPromise), toPromise);
+const ensurePromise = (0, _ramda.unless)(_ramdaAdjunct.isPromise, toPromise);
 exports.ensurePromise = ensurePromise;

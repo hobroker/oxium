@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-var _deferHandler2 = _interopRequireDefault(require("./feature/deferHandler"));
+var _deferHandler2 = _interopRequireDefault(require("./decorators/deferHandler"));
 
 exports.deferHandler = _deferHandler2.default;
 
