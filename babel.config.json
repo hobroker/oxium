@@ -7,8 +7,7 @@
       {
         "targets": {
           "node": true
-        },
-        "loose": true
+        }
       }
     ]
   ],

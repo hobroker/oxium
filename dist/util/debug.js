@@ -2,7 +2,9 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.debugItFp = exports.debugIt = exports.createDebug = void 0;
 
 var _debug = _interopRequireDefault(require("debug"));

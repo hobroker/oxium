@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = void 0;
 
 var _monet = require("monet");
@@ -19,6 +21,6 @@ const fnTransformation = (0, _ramda.curry)((validator, originalHandler) => (...a
   const applyValidator = (0, _ramda.compose)(_async.ensurePromise, (0, _ramda.apply)(validator));
   return (0, _ramda.compose)((0, _ramda.then)((0, _ramda.ifElse)(_ramda.identity, (0, _ramda.compose)(mapValidResult, (0, _ramda.apply)(originalHandler), (0, _ramda.always)(args)), mapInvalidResult)), applyValidator)(args);
 });
-const deferHandler = (0, _ramda.useWith)(_feature.updateHandler, [fnTransformation, _ramda.identity]);
-var _default = deferHandler;
+const withStatus = (0, _ramda.useWith)(_feature.updateHandler, [fnTransformation, _ramda.identity]);
+var _default = withStatus;
 exports.default = _default;

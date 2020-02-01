@@ -32,6 +32,6 @@ const fnTransformation = curry((validator, originalHandler) => (...args) => {
   )(args);
 });
 
-const deferHandler = useWith(updateHandler, [fnTransformation, identity]);
+const withStatus = useWith(updateHandler, [fnTransformation, identity]);
 
-export default deferHandler;
+export default withStatus;

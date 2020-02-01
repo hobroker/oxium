@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.ensurePromise = exports.toPromise = exports.promiseAll = void 0;
 
 var _ramda = require("ramda");

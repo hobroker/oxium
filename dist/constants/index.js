@@ -1,6 +1,8 @@
 "use strict";
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.IS_LOADED = exports.HANDLER = exports.META = exports.FEATURES = exports.ID = exports.PKG_NAME = void 0;
 
 var _package = require("../../package.json");
