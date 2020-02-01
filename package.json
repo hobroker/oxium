@@ -8,7 +8,10 @@
   "type": "module",
   "main": "dist/index.js",
   "files": [
-    "/dist"
+    "/dist",
+    "/src",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "babel src -d dist --copy-files",
@@ -16,7 +19,8 @@
     "rebuild": "rm -rf dist && npm run build",
     "test": "NODE_ENV=test jest --passWithNoTests",
     "test:coverage": "npm test -- --coverage",
-    "lint": "eslint src --ext .js --max-warnings 0 --fix"
+    "lint": "eslint src --ext .js --max-warnings 0 --fix",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@babel/runtime": "^7.8.4",
