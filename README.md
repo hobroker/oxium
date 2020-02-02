@@ -1,9 +1,10 @@
 # Oxium
-![GitHub package.json version](https://img.shields.io/github/package-json/v/hobroker/oxium?style=flat-square)
-[![License](https://img.shields.io/github/license/hobroker/oxium)](LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/hobroker/oxium)](https://github.com/hobroker/oxium/projects/1)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/hobroker/oxium.svg)](http://isitmaintained.com/project/hobroker/oxium "Average time to resolve an issue")
-![GitHub top language](https://img.shields.io/github/languages/top/hobroker/oxium)
+[![GitHub package.json version][package-version-badge]](package.json)
+[![License][package-license-badge]](LICENSE)
+[![GitHub issues][github-issues-badge]][github-issues-link]
+[![Average time to resolve an issue][maintained-badge]][maintained-link]
+![GitHub top language][top-lang-badge]
+[![Snyk Vulnerabilities][snyk-badge]][snyk-link]
 
 ---
 
@@ -22,8 +23,21 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 
 ---
 
-[![Buy Me A Coffee][buymeacoffee-image]][buymeacoffee-link]
-
+[![Buy Me A Coffee][buymeacoffee-badge]][buymeacoffee-link]
 
 [buymeacoffee-link]: https://www.buymeacoffee.com/hobroker
-[buymeacoffee-image]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
+[buymeacoffee-badge]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
+
+[package-version-badge]: https://img.shields.io/github/package-json/v/hobroker/oxium?style=flat-square
+[package-license-badge]: https://img.shields.io/github/license/hobroker/oxium
+
+[github-issues-badge]: https://img.shields.io/github/issues/hobroker/oxium
+[github-issues-link]: https://github.com/hobroker/oxium/issues
+
+[maintained-badge]: http://isitmaintained.com/badge/resolution/hobroker/oxium.svg
+[maintained-link]: http://isitmaintained.com/project/hobroker/oxium
+
+[top-lang-badge]: https://img.shields.io/github/languages/top/hobroker/oxium
+
+[snyk-badge]: https://img.shields.io/snyk/vulnerabilities/github/hobroker/oxium
+[snyk-link]: https://snyk.io/test/github/hobroker/oxium

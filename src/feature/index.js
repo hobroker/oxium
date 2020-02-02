@@ -1,1 +1,0 @@
-export deferHandler from './deferHandler';
