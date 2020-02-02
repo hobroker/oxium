@@ -3,7 +3,7 @@ import { getFeatures, setFeatures } from '../lens/app';
 import { getId } from '../lens/feature';
 import { ID } from '../constants';
 
-const featureIdEq = compose(propEq(ID), getId);
+const featureIdEq = x => compose(propEq(ID), getId)(x);
 
 const findFeatureReplacement = curry((newFeatures, feature) =>
   compose(defaultTo(feature), find(featureIdEq(feature)))(newFeatures),
