@@ -1,3 +1,5 @@
-export deferHandler from './decorators/deferHandler';
+/* eslint-disable */
 
-export default from './oxium';
+require = require('esm')(module);
+
+module.exports = require('./main');
