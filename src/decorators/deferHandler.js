@@ -7,21 +7,21 @@ import {
   defaultTo,
   identity,
   ifElse,
-  andThen,
+  then,
   useWith,
 } from 'ramda';
 import { updateHandler } from '../lens/feature';
 import { ensurePromise } from '../util/async';
 import { ensureEitherOrRight } from '../util/either';
 
-const mapValidResult = compose(andThen(ensureEitherOrRight), ensurePromise);
+const mapValidResult = compose(then(ensureEitherOrRight), ensurePromise);
 const mapInvalidResult = compose(Left, defaultTo(null));
 
 const fnTransformation = curry((validator, originalHandler) => (...args) => {
   const applyValidator = compose(ensurePromise, apply(validator));
 
   return compose(
-    andThen(
+    then(
       ifElse(
         identity,
         compose(mapValidResult, apply(originalHandler), always(args)),

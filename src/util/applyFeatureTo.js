@@ -6,7 +6,7 @@ import {
   curry,
   identity,
   ifElse,
-  andThen,
+  then,
 } from 'ramda';
 import { cata, isFunction } from 'ramda-adjunct';
 import { getHandler, setFeatureIsLoaded } from '../lens/feature';
@@ -21,7 +21,7 @@ const mapRightResult = converge(compose, [
 const mapLeftResult = always(identity);
 
 const resolveHandler = curry((app, handler) =>
-  compose(andThen(ensureEitherOrRight), ensurePromise, handler)(app),
+  compose(then(ensureEitherOrRight), ensurePromise, handler)(app),
 );
 
 const callFeatureWith = curry((app, feature) =>
@@ -30,8 +30,8 @@ const callFeatureWith = curry((app, feature) =>
 
 const applyFeatureTo = curry((app, feature) =>
   compose(
-    andThen(applyTo(feature)),
-    andThen(cata(mapLeftResult, mapRightResult)),
+    then(applyTo(feature)),
+    then(cata(mapLeftResult, mapRightResult)),
     callFeatureWith,
   )(app, feature),
 );
