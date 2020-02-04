@@ -1,6 +1,4 @@
-import { name } from '../../package.json';
-
-const PKG_NAME = name;
+const PKG_NAME = 'oxium';
 
 const ID = 'id';
 const HANDLER = 'handler';
