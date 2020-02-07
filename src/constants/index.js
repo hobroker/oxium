@@ -1,13 +1,9 @@
-import { name } from '../../package.json';
+export const PKG_NAME = 'oxium';
 
-const PKG_NAME = name;
+export const ID = 'id';
+export const HANDLER = 'handler';
+export const IS_LOADED = 'isLoaded';
+export const FEATURES = 'features';
+export const META = '_';
 
-const ID = 'id';
-const HANDLER = 'handler';
-const IS_LOADED = 'isLoaded';
-const FEATURES = 'features';
-const META = '_';
-
-export { PKG_NAME };
-
-export { ID, FEATURES, META, HANDLER, IS_LOADED };
+export const HANDLER_NOT_READY_RESULT = false;
