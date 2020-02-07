@@ -1,12 +1,14 @@
 import debug from 'debug';
-import { apply, compose, tap, unapply } from 'ramda';
+import { apply, bind, compose, tap, unapply } from 'ramda';
 import { PKG_NAME } from '../constants';
 
 const baseDebug = debug(PKG_NAME);
 
 const debugIt = baseDebug;
 
-const createDebug = compose(unapply, apply, ::debugIt.extend);
+const extend = bind(debugIt.extend, debugIt);
+
+const createDebug = compose(unapply, apply, extend);
 
 const debugItFp = tap(createDebug('fp'));
 
