@@ -1,8 +1,8 @@
-import { unless } from 'ramda';
-import { isPromise } from 'ramda-adjunct';
-
-export const promiseAll = array => Promise.all(array);
+import { compose, is, then, unless } from 'ramda';
+import { allP } from 'ramda-adjunct';
 
 export const toPromise = value => Promise.resolve(value);
 
-export const ensurePromise = unless(isPromise, toPromise);
+export const ensurePromise = unless(is(Promise), toPromise);
+
+export const promiseAllThen = fn => compose(then(fn), allP);

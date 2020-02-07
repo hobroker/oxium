@@ -1,22 +1,27 @@
-import { compose, curry, map, not, then, when } from 'ramda';
+import { compose, converge, map, not, o, pipe, when } from 'ramda';
 import { getFeatures } from './lens/app';
-import { promiseAll } from './util/async';
+import { promiseAllThen } from './util/async';
 import applyFeatureTo from './util/applyFeatureTo';
 import replaceFeaturesIn from './util/replaceFeaturesIn';
+import pipeAsync from './util/pipeAsync';
 
-const createAppRunner = curry((filterFn, isDoneFn, app) => {
-  const runAgainOrReturn = when(
-    compose(not, isDoneFn),
-    createAppRunner(filterFn, isDoneFn),
-  );
+const resolveFeaturesWith = converge(pipeAsync, [
+  o(map, applyFeatureTo),
+  o(promiseAllThen, replaceFeaturesIn),
+]);
 
-  return compose(
-    then(compose(runAgainOrReturn, replaceFeaturesIn(app))),
-    promiseAll,
-    map(applyFeatureTo(app)),
-    filterFn,
-    getFeatures,
-  )(app);
-});
+const takeFeatures = fn => pipe(getFeatures, fn);
+
+const createAppRunner = (filterFn, isDoneFn) => {
+  const runAgain = app => createAppRunner(filterFn, isDoneFn)(app);
+  const shouldRunAgain = compose(not, isDoneFn);
+
+  return app =>
+    pipeAsync(
+      takeFeatures(filterFn),
+      resolveFeaturesWith(app),
+      when(shouldRunAgain, runAgain),
+    )(app);
+};
 
 export default createAppRunner;
