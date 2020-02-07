@@ -9,12 +9,11 @@ import {
   reduce,
   tail,
   then,
-  unless,
 } from 'ramda';
-import { toPromise } from './async';
+import { ensurePromise } from './async';
 
 const _pipeAsync = (f, g) => (...args) => {
-  const gPromise = compose(unless(is(Promise), toPromise), flip(applyTo)(g));
+  const gPromise = compose(ensurePromise, flip(applyTo)(g));
 
   return compose(ifElse(is(Promise), then(gPromise), gPromise), apply(f))(args);
 };
