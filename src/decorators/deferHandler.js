@@ -5,8 +5,8 @@ import {
   curry,
   equals,
   identity,
+  unless,
   useWith,
-  when,
 } from 'ramda';
 import { updateHandler } from '../lens/feature';
 import pipeAsync from '../util/pipeAsync';
@@ -17,7 +17,7 @@ const fnTransformation = curry((validator, originalHandler) => (...args) => {
 
   return pipeAsync(
     apply(validator),
-    when(equals(HANDLER_NOT_READY_RESULT), callOriginalHandler),
+    unless(equals(HANDLER_NOT_READY_RESULT), callOriginalHandler),
   )(args);
 });
 
