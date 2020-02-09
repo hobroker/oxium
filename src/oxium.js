@@ -1,13 +1,13 @@
 import { compose, converge, map, not, o, pipe, when } from 'ramda';
 import { getFeatures } from './lens/app';
-import { promiseAllThen } from './util/async';
+import { promiseAllAndThen } from './util/promise';
 import applyFeatureTo from './util/applyFeatureTo';
 import replaceFeaturesIn from './util/replaceFeaturesIn';
 import pipeAsync from './util/pipeAsync';
 
 const resolveFeaturesWith = converge(pipeAsync, [
   o(map, applyFeatureTo),
-  o(promiseAllThen, replaceFeaturesIn),
+  o(promiseAllAndThen, replaceFeaturesIn),
 ]);
 
 const takeFeatures = fn => pipe(getFeatures, fn);

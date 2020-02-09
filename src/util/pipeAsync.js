@@ -1,23 +1,6 @@
-import {
-  apply,
-  applyTo,
-  compose,
-  flip,
-  head,
-  ifElse,
-  is,
-  reduce,
-  tail,
-  then,
-} from 'ramda';
-import { ensurePromise } from './async';
+import { andThen, call, pipeWith, unapply, useWith } from 'ramda';
+import { ensurePromise } from './promise';
 
-const _pipeAsync = (f, g) => (...args) => {
-  const gPromise = compose(ensurePromise, flip(applyTo)(g));
-
-  return compose(ifElse(is(Promise), then(gPromise), gPromise), apply(f))(args);
-};
-
-const pipeAsync = (...args) => reduce(_pipeAsync, head(args), tail(args));
+const pipeAsync = unapply(pipeWith(useWith(call, [andThen, ensurePromise])));
 
 export default pipeAsync;
