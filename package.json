@@ -23,11 +23,14 @@
     "debug": "^4.1.1",
     "esm": "^3.2.25",
     "monet": "^0.9.1",
-    "ramda": "^0.26.1",
-    "ramda-adjunct": "^2.24.0"
+    "ramda": "^0.27.0",
+    "ramda-adjunct": "^2.25.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
@@ -57,6 +60,14 @@
     "modulePathIgnorePatterns": [
       "/dist"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "transform": {
+      "\\.js$": [
+        "babel-jest",
+        {
+          "rootMode": "upward"
+        }
+      ]
+    }
   }
 }

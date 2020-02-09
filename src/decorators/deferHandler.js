@@ -1,34 +1,23 @@
-import { Left } from 'monet';
 import {
   always,
   apply,
   compose,
   curry,
-  defaultTo,
+  equals,
   identity,
-  ifElse,
-  then,
+  unless,
   useWith,
 } from 'ramda';
 import { updateHandler } from '../lens/feature';
-import { ensurePromise } from '../util/async';
-import { ensureEitherOrRight } from '../util/either';
-
-const mapValidResult = compose(then(ensureEitherOrRight), ensurePromise);
-const mapInvalidResult = compose(Left, defaultTo(null));
+import pipeAsync from '../util/pipeAsync';
+import { HANDLER_NOT_READY_RESULT } from '../constants';
 
 const fnTransformation = curry((validator, originalHandler) => (...args) => {
-  const applyValidator = compose(ensurePromise, apply(validator));
+  const callOriginalHandler = compose(apply(originalHandler), always(args));
 
-  return compose(
-    then(
-      ifElse(
-        identity,
-        compose(mapValidResult, apply(originalHandler), always(args)),
-        mapInvalidResult,
-      ),
-    ),
-    applyValidator,
+  return pipeAsync(
+    apply(validator),
+    unless(equals(HANDLER_NOT_READY_RESULT), callOriginalHandler),
   )(args);
 });
 

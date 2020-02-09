@@ -1,39 +1,25 @@
-import {
-  always,
-  applyTo,
-  compose,
-  converge,
-  curry,
-  identity,
-  ifElse,
-  then,
-} from 'ramda';
-import { cata, isFunction } from 'ramda-adjunct';
+import { curry } from 'ramda';
+import { isFunction } from 'ramda-adjunct';
 import { getHandler, setFeatureIsLoaded } from '../lens/feature';
-import { ensureEitherOrRight } from './either';
-import { ensurePromise } from './async';
+import { ensurePromise } from './promise';
+import pipeAsync from './pipeAsync';
+import { HANDLER_NOT_READY_RESULT } from '../constants';
 
-const mapRightResult = converge(compose, [
-  always(setFeatureIsLoaded(true)),
-  ifElse(isFunction, identity, always(identity)),
-]);
+const transformRightResult = setFeatureIsLoaded(true);
 
-const mapLeftResult = always(identity);
+const applyFeatureTo = curry(async (app, feature) => {
+  const handler = getHandler(feature);
+  const result = await ensurePromise(handler(app));
 
-const resolveHandler = curry((app, handler) =>
-  compose(then(ensureEitherOrRight), ensurePromise, handler)(app),
-);
+  if (result === HANDLER_NOT_READY_RESULT) {
+    return feature;
+  }
 
-const callFeatureWith = curry((app, feature) =>
-  compose(resolveHandler(app), getHandler)(feature),
-);
+  if (isFunction(result)) {
+    return pipeAsync(transformRightResult, result)(feature);
+  }
 
-const applyFeatureTo = curry((app, feature) =>
-  compose(
-    then(applyTo(feature)),
-    then(cata(mapLeftResult, mapRightResult)),
-    callFeatureWith,
-  )(app, feature),
-);
+  return transformRightResult(feature);
+});
 
 export default applyFeatureTo;
