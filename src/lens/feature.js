@@ -1,4 +1,4 @@
-import { compose, lensProp, over, set, view } from 'ramda';
+import { compose, lensProp, not, over, set, view } from 'ramda';
 import { HANDLER, ID, IS_LOADED, META } from '../constants';
 
 export const idLens = lensProp(ID);
@@ -16,3 +16,5 @@ export const setHandler = set(handlerLens);
 export const updateHandler = over(handlerLens);
 
 export const setFeatureIsLoaded = set(metaIsLoadedLens);
+export const isFeatureLoaded = view(metaIsLoadedLens);
+export const isFeatureUnloaded = compose(not, isFeatureLoaded);
