@@ -1,4 +1,4 @@
-import { apply, curry, equals, ifElse } from 'ramda';
+import { apply, curry, equals, ifElse, tap } from 'ramda';
 import { isFunction } from 'ramda-adjunct';
 import pipeAsync from '../util/pipeAsync';
 import { debugItRuntime } from '../util/debug';
@@ -26,7 +26,7 @@ const deferHandler = curry((validator, feature) => {
     HANDLER,
   );
 
-  const whenFailed = () => () => debugItRuntime('defered', getId(feature));
+  const whenFailed = () => tap(() => debugItRuntime('defered', getId(feature)));
   const whenPassed = args => () => originalHandler(...args);
   const newHandler = wrapHandler(validator, whenPassed, whenFailed);
 
