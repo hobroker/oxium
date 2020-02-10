@@ -1,8 +1,6 @@
 import { andThen, pipe, unless } from 'ramda';
-import { allP, isPromise } from 'ramda-adjunct';
+import { allP, isPromise, resolveP } from 'ramda-adjunct';
 
-export const toPromise = value => Promise.resolve(value);
-
-export const ensurePromise = unless(isPromise, toPromise);
+export const ensurePromise = unless(isPromise, resolveP);
 
 export const promiseAllAndThen = fn => pipe(allP, andThen(fn));

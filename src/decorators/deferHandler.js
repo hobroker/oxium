@@ -1,26 +1,36 @@
-import {
-  always,
-  apply,
-  compose,
-  curry,
-  equals,
-  identity,
-  unless,
-  useWith,
-} from 'ramda';
-import { updateHandler } from '../lens/feature';
+import { apply, curry, equals, ifElse } from 'ramda';
+import { isFunction } from 'ramda-adjunct';
 import pipeAsync from '../util/pipeAsync';
-import { HANDLER_NOT_READY_RESULT } from '../constants';
+import { debugItRuntime } from '../util/debug';
+import invariant from '../util/invariant';
+import { getHandler, getId, setHandler } from '../lens/feature';
+import { HANDLER, HANDLER_NOT_READY_RESULT } from '../constants';
 
-const fnTransformation = curry((validator, originalHandler) => (...args) => {
-  const callOriginalHandler = compose(apply(originalHandler), always(args));
-
-  return pipeAsync(
+const wrapHandler = curry((validator, whenPassed, whenFailed) => (...args) =>
+  pipeAsync(
     apply(validator),
-    unless(equals(HANDLER_NOT_READY_RESULT), callOriginalHandler),
-  )(args);
+    ifElse(
+      equals(HANDLER_NOT_READY_RESULT),
+      whenFailed(args),
+      whenPassed(args),
+    ),
+  )(args),
+);
+
+const deferHandler = curry((validator, feature) => {
+  const originalHandler = getHandler(feature);
+  invariant(
+    isFunction(originalHandler),
+    `deferHandler: %s feature.handler must be a function"`,
+    getId(feature),
+    HANDLER,
+  );
+
+  const whenFailed = () => () => debugItRuntime('defered', getId(feature));
+  const whenPassed = args => () => originalHandler(...args);
+  const newHandler = wrapHandler(validator, whenPassed, whenFailed);
+
+  return setHandler(newHandler, feature);
 });
 
-const withStatus = useWith(updateHandler, [fnTransformation, identity]);
-
-export default withStatus;
+export default deferHandler;

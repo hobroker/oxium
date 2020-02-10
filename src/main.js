@@ -1,5 +1,6 @@
 import oxium from './oxium';
-import deferHandler from './decorators/deferHandler';
 
-export { deferHandler };
+export * from './decorators';
+export * from './lens';
+
 export default oxium;

@@ -4,6 +4,7 @@ import { promiseAllAndThen } from './util/promise';
 import applyFeatureTo from './util/applyFeatureTo';
 import replaceFeaturesIn from './util/replaceFeaturesIn';
 import pipeAsync from './util/pipeAsync';
+import { debugItRuntime } from './util/debug';
 
 const resolveFeaturesWith = converge(pipeAsync, [
   o(map, applyFeatureTo),
@@ -15,6 +16,8 @@ const takeFeatures = fn => pipe(getFeatures, fn);
 const createAppRunner = (filterFn, isDoneFn) => {
   const runAgain = app => createAppRunner(filterFn, isDoneFn)(app);
   const shouldRunAgain = compose(not, isDoneFn);
+
+  debugItRuntime('createAppRunner loop');
 
   return app =>
     pipeAsync(
