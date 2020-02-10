@@ -8,11 +8,7 @@ import { debugItRuntime } from './debug';
 
 const transformRightResult = setFeatureIsLoaded(true);
 
-const applyFeatureTo = curry(async (app, feature) => {
-  debugItRuntime('applyFeatureTo feature', getId(feature));
-  const handler = getHandler(feature);
-  const result = await ensurePromise(handler(app));
-
+const transformResult = (feature, result) => {
   if (result === HANDLER_NOT_READY_RESULT) {
     return feature;
   }
@@ -22,6 +18,14 @@ const applyFeatureTo = curry(async (app, feature) => {
   }
 
   return transformRightResult(feature);
+};
+
+const applyFeatureTo = curry(async (app, feature) => {
+  debugItRuntime('applyFeatureTo feature', getId(feature));
+  const handler = getHandler(feature);
+  const result = await ensurePromise(handler(app));
+
+  return transformResult(feature, result);
 });
 
 export default applyFeatureTo;
