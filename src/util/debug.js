@@ -4,12 +4,12 @@ import { PKG_NAME } from '../constants';
 
 const baseDebug = debug(PKG_NAME);
 
-const debugIt = baseDebug;
+const extend = bind(baseDebug.extend, baseDebug);
 
-const extend = bind(debugIt.extend, debugIt);
+export const createDebug = pipe(extend, apply, unapply);
 
-const createDebug = pipe(extend, apply, unapply);
+export const debugIt = baseDebug;
 
-const debugItFp = tap(createDebug('fp'));
+export const debugItRuntime = createDebug('runtime');
 
-export { createDebug, debugIt, debugItFp };
+export const debugItFp = tap(createDebug('fp'));

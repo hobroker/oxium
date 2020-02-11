@@ -1,6 +1,5 @@
 import { compose, curry, defaultTo, find, map, propEq } from 'ramda';
-import { getFeatures, setFeatures } from '../lens/app';
-import { getId } from '../lens/feature';
+import { getFeatures, getId, setFeatures } from '../lens';
 import { ID } from '../constants';
 
 const featureIdEq = compose(propEq(ID), getId);
