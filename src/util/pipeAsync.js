@@ -1,6 +1,6 @@
 import { andThen, call, pipeWith, unapply, useWith } from 'ramda';
-import { ensurePromise } from './promise';
+import { resolveP } from 'ramda-adjunct';
 
-const pipeAsync = unapply(pipeWith(useWith(call, [andThen, ensurePromise])));
+const pipeAsync = unapply(pipeWith(useWith(call, [andThen, resolveP])));
 
 export default pipeAsync;

@@ -1,10 +1,11 @@
 import { curry } from 'ramda';
-import { isFunction } from 'ramda-adjunct';
-import { getHandler, getId, setFeatureIsLoaded } from '../lens/feature';
-import { ensurePromise } from './promise';
-import pipeAsync from './pipeAsync';
+import { isFunction, resolveP } from 'ramda-adjunct';
+import { getHandler, getId, setFeatureIsLoaded } from '../lens';
+import pipeAsync from '../util/pipeAsync';
 import { HANDLER_NOT_READY_RESULT } from '../constants';
-import { debugItRuntime } from './debug';
+import { createDebug } from '../util/debug';
+
+const debugIt = createDebug('applyFeatureTo');
 
 const transformRightResult = setFeatureIsLoaded(true);
 
@@ -21,9 +22,9 @@ const transformResult = (feature, result) => {
 };
 
 const applyFeatureTo = curry(async (app, feature) => {
-  debugItRuntime('applyFeatureTo feature', getId(feature));
+  debugIt('feature %s', getId(feature));
   const handler = getHandler(feature);
-  const result = await ensurePromise(handler(app));
+  const result = await resolveP(handler(app));
 
   return transformResult(feature, result);
 });

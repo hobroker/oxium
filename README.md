@@ -16,6 +16,8 @@
 npm install hobroker/oxium
 ```
 
+![alt text](graph.svg)
+
 ## 💬 Contributing
 
 - [Code of Conduct](CODE_OF_CONDUCT.md)

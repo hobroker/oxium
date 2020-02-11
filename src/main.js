@@ -1,4 +1,4 @@
-import oxium from './oxium';
+import oxium from './app/oxium';
 
 export * from './decorators';
 export * from './lens';
