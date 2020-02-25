@@ -1,37 +1,34 @@
-import { andThen, compose, ifElse, map, not, pipe, tap } from 'ramda';
-import { allP } from 'ramda-adjunct';
-import { getFeatures } from '../lens';
-import applyFeatureTo from './applyFeatureTo';
-import replaceFeaturesIn from './replaceFeaturesIn';
-import pipeAsync from '../util/pipeAsync';
-import { createDebug } from '../util/debug';
+import { curry } from 'ramda';
+import { isObjectLike } from 'ramda-adjunct';
+import { assign } from '../util';
 
-const debugIt = createDebug('createAppRunner');
+const resolveFeatureWith = curry(async (params, feature) => {
+  const val = await feature(params);
+  const {
+    _: { result },
+  } = params;
+  if (isObjectLike(val)) {
+    assign(val, result);
+  }
 
-const promiseAllAndThen = fn => pipe(allP, andThen(fn));
+  return val;
+});
 
-const resolveFeaturesWith = app =>
-  pipeAsync(
-    map(applyFeatureTo(app)),
-    promiseAllAndThen(replaceFeaturesIn(app)),
-  );
+const next = curry(async (features, params) => {
+  const result = {};
 
-const takeFeatures = fn => pipe(getFeatures, fn);
+  for (const feature of features) {
+    const arg = {
+      ...params,
+      _: {
+        result,
+        features,
+      },
+    };
+    await resolveFeatureWith(arg, feature);
+  }
 
-const createAppRunner = (filterFn, isDoneFn, _loop = 1) => {
-  const runAgain = app => createAppRunner(filterFn, isDoneFn, _loop + 1)(app);
-  const shouldRunAgain = compose(not, isDoneFn);
-  const whenDone = tap(() => debugIt('done'));
+  return result;
+});
 
-  return app => {
-    debugIt('start loop %d', _loop);
-
-    return pipeAsync(
-      takeFeatures(filterFn),
-      resolveFeaturesWith(app),
-      ifElse(shouldRunAgain, runAgain, whenDone),
-    )(app);
-  };
-};
-
-export default createAppRunner;
+export default next;

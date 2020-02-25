@@ -9,9 +9,11 @@ import {
   set,
   view,
 } from 'ramda';
-import byIdLens from '../util/byIdLens';
-import { FEATURES } from '../constants';
+import findByPropLens from '../util/findByPropLens';
+import { FEATURES, ID } from '../constants';
 import { isFeatureLoaded, metaIsLoadedLens } from './feature';
+
+export const createByIdLens = findByPropLens(ID);
 
 export const featuresLens = lensProp(FEATURES);
 
@@ -20,7 +22,7 @@ export const setFeatures = set(featuresLens);
 
 export const featureByIdLens = converge(compose, [
   always(featuresLens),
-  compose(byIdLens, identity),
+  compose(createByIdLens, identity),
 ]);
 
 export const featureByIdIsLoadedLens = converge(compose, [
