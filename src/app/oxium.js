@@ -1,31 +1,36 @@
-import { curry } from 'ramda';
-import { isObjectLike } from 'ramda-adjunct';
-import { assign } from '../util';
+import { always, andThen, applyTo, curry, pipe, when } from 'ramda';
+import { isObjectLike, isFunction, resolveP } from 'ramda-adjunct';
+import { assign } from '../util/lens';
+import { FEATURES, META, RESULT } from '../constants';
+import { getMetaResult } from '../accessors/arg';
 
 const resolveFeatureWith = curry(async (params, feature) => {
-  const val = await feature(params);
-  const {
-    _: { result },
-  } = params;
-  if (isObjectLike(val)) {
-    assign(val, result);
+  const value = await pipe(
+    feature,
+    resolveP,
+    andThen(when(isFunction, applyTo([]))),
+  )(params);
+  const result = getMetaResult(params);
+  if (isObjectLike(value)) {
+    assign(value, result);
   }
 
-  return val;
+  return value;
 });
 
 const next = curry(async (features, params) => {
   const result = {};
 
+  const getArg = always({
+    ...params,
+    [META]: {
+      [RESULT]: result,
+      [FEATURES]: features,
+    },
+  });
+
   for (const feature of features) {
-    const arg = {
-      ...params,
-      _: {
-        result,
-        features,
-      },
-    };
-    await resolveFeatureWith(arg, feature);
+    await resolveFeatureWith(getArg(), feature);
   }
 
   return result;
