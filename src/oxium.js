@@ -1,8 +1,9 @@
-import { always, andThen, applyTo, curry, pipe, when } from 'ramda';
+import { andThen, applyTo, curry, pipe, when } from 'ramda';
 import { isObjectLike, isFunction, resolveP } from 'ramda-adjunct';
-import { assign } from '../util/lens';
-import { FEATURES, META, RESULT } from '../constants';
-import { getMetaResult } from '../accessors/arg';
+import { getMetaResult } from './accessors/arg';
+import { assign } from './util/lens';
+import oxi from './util/oxi';
+import { FEATURES, META, RESULT } from './constants';
 
 const resolveFeatureWith = curry(async (params, feature) => {
   const value = await pipe(
@@ -19,9 +20,9 @@ const resolveFeatureWith = curry(async (params, feature) => {
 });
 
 const next = curry(async (features, params) => {
-  const result = {};
+  const result = oxi({});
 
-  const getArg = always({
+  const getArg = () => ({
     ...params,
     [META]: {
       [RESULT]: result,

@@ -1,4 +1,4 @@
-import oxium from './app/oxium';
+import oxium from './oxium';
 
 export * from './accessors/arg';
 export * from './constants';
