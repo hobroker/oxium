@@ -1,5 +1,5 @@
 import { always, has, keys } from 'ramda';
-import { assocPathM } from './lens';
+import { assocM } from './lens';
 import { debugIt } from './debug';
 
 const oxi = arg => {
@@ -24,7 +24,7 @@ const oxi = arg => {
   const target = resolver => resolver(root.target);
   const get = (_, key) => getValue(key);
   const set = (_, key, value) => {
-    assocPathM([key], value, arg);
+    assocM(key, value, arg);
 
     return true;
   };
