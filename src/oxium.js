@@ -1,40 +1,28 @@
 import { andThen, applyTo, curry, pipe, when } from 'ramda';
-import { isObjectLike, isFunction, resolveP } from 'ramda-adjunct';
-import { getMetaResult } from './accessors/arg';
+import { isFunction, isObjectLike, resolveP } from 'ramda-adjunct';
 import { assign } from './util/mutable';
 import oxi from './util/oxi';
-import { FEATURES, META, RESULT } from './constants';
+import resolveSequentially from './util/resolveSequentially';
 
-const resolveFeatureWith = curry(async (params, feature) => {
+const resolveFeatureWith = curry(async (acc, features, feature) => {
   const value = await pipe(
     feature,
     resolveP,
     andThen(when(isFunction, applyTo([]))),
-  )(params);
-  const result = getMetaResult(params);
+  )(acc, features);
+
   if (isObjectLike(value)) {
-    assign(value, result);
+    assign(value, acc);
   }
 
-  return value;
+  return acc;
 });
 
 const oxium = curry(async (features, params) => {
-  const result = oxi({});
+  const result = oxi(params);
+  const resolveFeatures = resolveFeatureWith(result, features);
 
-  const getArg = () => ({
-    ...params,
-    [META]: {
-      [RESULT]: result,
-      [FEATURES]: features,
-    },
-  });
-
-  for (const feature of features) {
-    await resolveFeatureWith(getArg(), feature);
-  }
-
-  return Promise.resolve(result);
+  return resolveSequentially(resolveFeatures)(features);
 });
 
 export default oxium;
