@@ -1,7 +1,7 @@
 import { andThen, applyTo, curry, pipe, when } from 'ramda';
 import { isObjectLike, isFunction, resolveP } from 'ramda-adjunct';
 import { getMetaResult } from './accessors/arg';
-import { assign } from './util/lens';
+import { assign } from './util/mutable';
 import oxi from './util/oxi';
 import { FEATURES, META, RESULT } from './constants';
 
@@ -19,7 +19,7 @@ const resolveFeatureWith = curry(async (params, feature) => {
   return value;
 });
 
-const next = curry(async (features, params) => {
+const oxium = curry(async (features, params) => {
   const result = oxi({});
 
   const getArg = () => ({
@@ -34,7 +34,7 @@ const next = curry(async (features, params) => {
     await resolveFeatureWith(getArg(), feature);
   }
 
-  return result;
+  return Promise.resolve(result);
 });
 
-export default next;
+export default oxium;

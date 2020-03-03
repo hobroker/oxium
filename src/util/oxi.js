@@ -1,14 +1,15 @@
-import { always, has, keys } from 'ramda';
-import { assocM } from './lens';
+import { has, keys } from 'ramda';
+import { assocM } from './mutable';
 import { debugIt } from './debug';
 
 const oxi = arg => {
+  let proxy = null;
   const other = {
-    then: always(undefined),
     debug: () => debugIt(keys(arg)),
   };
 
-  const getValue = key => {
+  const proxyTarget = resolver => resolver(proxy);
+  const get = (obj, key) => {
     if (has(key, arg)) {
       return arg[key];
     }
@@ -17,21 +18,16 @@ const oxi = arg => {
       return other[key];
     }
 
-    throw new Error(`key "${key}" does not exist`);
+    return obj[key];
   };
-
-  const root = {};
-  const target = resolver => resolver(root.target);
-  const get = (_, key) => getValue(key);
   const set = (_, key, value) => {
     assocM(key, value, arg);
 
     return true;
   };
-  const fn = new Proxy(target, { get, set });
-  root.target = fn;
+  proxy = new Proxy(proxyTarget, { get, set });
 
-  return root.target;
+  return proxy;
 };
 
 export default oxi;
