@@ -3,12 +3,12 @@ import { assocM } from './mutable';
 import { debugIt } from './debug';
 
 const oxi = arg => {
-  let proxy = null;
+  let targetProxy = null;
   const other = {
     debug: () => debugIt(keys(arg)),
   };
 
-  const proxyTarget = resolver => resolver(proxy);
+  const target = resolver => resolver(targetProxy);
   const get = (obj, key) => {
     if (has(key, arg)) {
       return arg[key];
@@ -25,9 +25,10 @@ const oxi = arg => {
 
     return true;
   };
-  proxy = new Proxy(proxyTarget, { get, set });
 
-  return proxy;
+  targetProxy = new Proxy(target, { get, set });
+
+  return targetProxy;
 };
 
 export default oxi;
