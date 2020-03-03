@@ -5,14 +5,15 @@ import oxi from './util/oxi';
 import resolveSequentially from './util/resolveSequentially';
 
 const resolveFeatureWith = curry(async (acc, features, feature) => {
+  const optionalFnArg = [];
   const value = await pipe(
     feature,
     resolveP,
-    andThen(when(isFunction, applyTo([]))),
+    andThen(when(isFunction, applyTo(optionalFnArg))),
   )(acc, features);
 
   if (isObjectLike(value)) {
-    assign(value, acc);
+    return assign(value, acc);
   }
 
   return acc;
