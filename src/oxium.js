@@ -6,10 +6,11 @@ import resolveSequentially from './util/resolveSequentially';
 
 const resolveFeatureWith = curry(async (acc, features, feature) => {
   const optionalFnArg = [];
+  const transformResult = when(isFunction, applyTo(optionalFnArg));
   const value = await pipe(
     feature,
     resolveP,
-    andThen(when(isFunction, applyTo(optionalFnArg))),
+    andThen(transformResult),
   )(acc, features);
 
   if (isObjectLike(value)) {
@@ -23,7 +24,7 @@ const oxium = curry(async (features, params) => {
   const result = oxi(params);
   const resolveFeatures = resolveFeatureWith(result, features);
 
-  return resolveSequentially(resolveFeatures)(features);
+  return resolveSequentially(resolveFeatures, features);
 });
 
 export default oxium;
