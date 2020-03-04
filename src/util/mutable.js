@@ -1,4 +1,4 @@
-import { assocPath, curry, lens, path, toPairs } from 'ramda';
+import { assocPath, curry, toPairs } from 'ramda';
 
 export const assocPathM = curry((propPath, value, target) => {
   const [first] = propPath;
@@ -7,8 +7,6 @@ export const assocPathM = curry((propPath, value, target) => {
 
   return target;
 });
-
-export const lensPathM = key => lens(path(key), assocPathM([key]));
 
 export const assign = curry((source, target) => {
   toPairs(source).map(([key, value]) => assocPathM([key], value, target));

@@ -1,6 +1,5 @@
 import debug from 'debug';
 import {
-  bind,
   filter,
   identity,
   join,
@@ -11,24 +10,22 @@ import {
   split,
   unapply,
 } from 'ramda';
-import { PKG_NAME } from '../constants';
 
-const baseDebug = debug(PKG_NAME);
+const PKG_NAME = 'oxium';
 
-const extend = bind(baseDebug.extend, baseDebug);
+const notIncluded = array => value => !array.includes(value);
 
-const stack = () => {
+const getErrorStack = () => {
   const orig = Error.prepareStackTrace;
   Error.prepareStackTrace = nthArg(1);
-  const err = new Error();
-  Error.captureStackTrace(err, stack);
-  const errStack = err.stack;
+  const error = new Error();
+  Error.captureStackTrace(error, getErrorStack);
+  const errStack = error.stack;
   Error.prepareStackTrace = orig;
 
   return errStack;
 };
 
-const notIncluded = array => value => !array.includes(value);
 const shortenPathname = pipe(
   slice(0, -3),
   split('/'),
@@ -39,13 +36,15 @@ const shortenPathname = pipe(
 );
 
 export const getCallerPathname = (idx = 2) => {
-  const pathname = stack()[idx].getFileName();
+  const pathname = getErrorStack()[idx].getFileName();
 
   return shortenPathname(pathname);
 };
 
-export const createDebug = ex => {
-  const logWithKey = memoizeWith(identity, key => ex(key));
+const baseDebug = debug(PKG_NAME);
+
+const createDebug = base => {
+  const logWithKey = memoizeWith(identity, key => base.extend(key));
   const log = key => args => {
     const logKey = key || getCallerPathname(3);
     logWithKey(logKey)(...args);
@@ -57,12 +56,12 @@ export const createDebug = ex => {
   fn.lazy = (...args) => {
     const sublog = log(getCallerPathname(2));
 
-    return () => {
-      return sublog(args);
-    };
+    return () => sublog(args);
   };
 
   return fn;
 };
 
-export const debugIt = createDebug(extend);
+export const debugIt = createDebug(baseDebug);
+
+export default createDebug;
