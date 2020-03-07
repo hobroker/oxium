@@ -41,8 +41,6 @@ export const getCallerPathname = (idx = 2) => {
   return shortenPathname(pathname);
 };
 
-const baseDebug = debug(PKG_NAME);
-
 const createDebug = base => {
   const logWithKey = memoizeWith(identity, key => base.extend(key));
   const log = key => args => {
@@ -61,6 +59,8 @@ const createDebug = base => {
 
   return fn;
 };
+
+const baseDebug = debug(PKG_NAME);
 
 export const debugIt = createDebug(baseDebug);
 
