@@ -5,7 +5,6 @@
   "author": "Igor Leahu <igor.leahu@gmail.com>",
   "repository": "github:hobroker/oxium",
   "license": "MIT",
-  "type": "module",
   "main": "src/index.js",
   "module": "src/main.js",
   "files": [
