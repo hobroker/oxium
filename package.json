@@ -22,7 +22,7 @@
     "debug": "^4.1.1",
     "esm": "^3.2.25",
     "ramda": "^0.27.0",
-    "ramda-adjunct": "^2.25.0"
+    "ramda-adjunct": "^2.26.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
